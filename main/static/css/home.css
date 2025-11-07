@@ -1,0 +1,92 @@
+/* Typography (Google fonts loaded in <head>) */
+:root{
+  --font-header: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --color-bg: #F6FAFF;
+  --color-text: #333333;
+  --color-accent: #6C63FF; /* colour accent */
+  --color-atags: #4EE0CB;  /* Link colours */
+  --color-lightblue: #A4C8F0;
+  --color-shadow: #C8E8F8;
+  --base-font-size: 1rem;
+  --H2H3P-Colour: #2FBBAA;
+  --H1-Colour: #5B55E0;
+  --color-text: #262A2E;
+}
+
+/* Heading */
+
+
+
+/* Filters section */
+.filters {
+  margin-bottom: 20px;
+}
+
+#name-search {
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.tag {
+  background-color: var(--H1-Colour);
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color ease 0.3s;
+}
+
+.tag:hover {
+  background-color: var(--H2H3P-Colour);  
+  box-shadow: 0 0 10px rgba(47, 187, 170, 0.6); /* I did this for a glow effect */
+  transform: scale(1.02); 
+}
+
+
+/* Paragraph under tags */
+
+#temp-p {
+  color: var(--H2H3P-Colour);
+  font-family: var(--font-body);
+}
+
+/* Projects list */
+.projects-list {
+  margin-top: 20px;
+}
+
+.project {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.project h2 {
+  margin-top: 0;
+}
+
+.project p {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .tags-list {
+    flex-direction: column;
+  }
+}

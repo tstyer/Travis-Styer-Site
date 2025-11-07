@@ -1,0 +1,535 @@
+/* keeping all my headers, paragraphs and tags here */
+
+/* Typography (Google fonts loaded in <head>) */
+:root{
+  --font-header: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --color-bg: #F6FAFF;
+  --color-text: #262A2E;
+  --color-accent: #6C63FF; /* colour accent */
+  --color-atags: #4EE0CB;  /* main colour */
+  --color-lightblue: #A4C8F0;
+  --color-shadow: #C8E8F8;
+  --base-font-size: 1rem;
+  --H2H3P-Colour: #2FBBAA;
+  --H1-Colour: #5B55E0;
+}
+
+/* Reset / base */
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+html, body { 
+  height: 100%; 
+}
+
+body {
+  font-family: var(--font-body);
+  line-height: 1.7;
+  color: var(--color-text);
+  background: linear-gradient(
+    135deg,
+    #E7D6FF 0%,
+    #E4F8F2 45%,
+    #F6FAFF 100%
+  );
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.wrapper {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 1rem; /* On smaller screens, gets text off edge */
+}
+
+/* Headings use Poppins for a confident tone */
+h1, h2, h3 {
+  font-family: var(--font-header);
+  letter-spacing: -0.25px;
+}
+
+h1 { 
+  font-weight: 700; 
+  font-size: clamp(2rem, 4.5vw, 3rem); 
+  color: var(--H1-Colour);
+}
+
+h2 { 
+  font-weight: 600; 
+  font-size: calc(var(--base-font-size));
+  letter-spacing: 0.25em;
+  color: #249988;
+}
+
+
+/* Called by JS */
+
+.hidden {
+  display: none;
+}
+
+/* fade and slide up of projects */
+@keyframes fade-in-up {
+  from {
+    opacity: 0; /* starts invisible */
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1; /* fully visible */
+    transform: translateY(0);
+  }
+}
+
+/* base class I will add from JS - it uses this when tag clicked or search made */
+.fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+/* ABOVE: Called by JS */
+
+
+a { 
+  text-decoration: none; 
+  font-family: var(--font-body);
+  color: var(--color-atags);
+  transition: color 0.25s ease;
+}
+
+a, h1 strong {
+  color: var(--color-atags);
+}
+
+/* desktop nav */
+.nav-menu {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  color: azure;
+  justify-content: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px; /* pill shape */
+  backdrop-filter: blur(4px);
+}
+
+.nav-menu a { 
+  color: var(--color-atags);
+  transition: background 0.25s ease, color 0.25s ease;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+}
+
+/* mint hover, lighter than before */
+.nav-menu a:hover { 
+  background: rgba(47, 187, 170, 0.15);
+  color: var(--color-text);
+}
+
+/* gives the nav elements a pill on hover */
+.nav-menu .nav-link.active {
+  background: rgba(47, 187, 170, 0.6);
+  color: #fff;
+}
+
+/* Tagline */
+
+.tag-line {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--H2H3P-Colour);
+  margin-top: 0.5rem;
+  letter-spacing: 0.02em;
+  font-weight: 400;
+}
+
+@keyframes fade-in { /* Used this to add a soft intro to tagline */
+  from { 
+    opacity: 0; 
+    transform: translateY(6px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+.tagline {
+  animation: fade-in 0.8s ease-out 0.3s forwards;
+  opacity: 0; /* start hidden, animation reveals it */
+}
+
+/* p's on any page */
+
+p {
+  line-height: 1.5; /* H?aving just 1.5 multiplies 1.5 by the current unit of the font. */
+  font-size: 0.95rem;
+}
+
+/* Filter tags (outline style to stop competing with the h1) */
+.tag {
+  background-color: transparent;
+  color: var(--color-text);
+  border: 1.5px solid rgba(47, 187, 170, 0.4);
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: none;
+}
+
+.tag:hover {
+  background-color: rgba(47, 187, 170, 0.12);
+  box-shadow: 0 0 10px rgba(47, 187, 170, 0.35);
+  transform: scale(1.02);
+}
+
+/* active tag (clicked) */
+.tag.active {
+  background-color: rgba(47, 187, 170, 0.25);
+  color: #262A2E;
+  border-color: rgba(47, 187, 170, 0.7);
+}
+
+/* Burger nav */
+
+button {
+  color: var(--color-primary);
+}
+
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  backdrop-filter: blur(6px);
+  box-shadow: none;
+}
+
+/* hide burger on big screens */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+/* Footer */
+
+footer {
+  margin-top: auto;
+}
+
+/* svg social icons */
+
+.icons {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 2rem;
+}
+
+ul {
+  justify-content: center;
+}
+
+ul svg {
+  width: 25px;
+  height: 25px;
+}
+
+.social {
+  fill: var(--H1-Colour);
+}
+
+.social:hover {
+  fill: var(--H2H3P-Colour);
+}
+
+/* comment modal styling */
+
+/* comments modal */
+.comments-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 1000;
+}
+
+.comments-modal.is-open {
+  display: block;
+}
+
+.comments-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(3px);
+}
+
+.comments-modal__content {
+  position: relative;
+  max-width: 520px;
+  background: #fff;
+  margin: 6vh auto 0;
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+  padding: 1.25rem 1.25rem 1.5rem;
+  z-index: 1001;
+  text-align: left;
+}
+
+.comments-modal__close {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.6rem;
+  border: none;
+  background: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+.comment-btn {
+  margin-top: 0.75rem;
+  background: rgba(47, 187, 170, 0.09);
+  border: 1px solid rgba(47, 187, 170, 0.35);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: #262A2E;
+  transition: all 0.2s ease;
+}
+
+.comment-btn:hover {
+  background: rgba(47, 187, 170, 0.2);
+}
+
+
+/* authorisation modal */
+
+.auth-btn {
+  margin-left: auto;
+  background: rgba(47, 187, 170, 0.15);
+  border: 1px solid rgba(47, 187, 170, 0.35);
+  color: #249988;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.auth-btn:hover {
+  background: rgba(47, 187, 170, 0.35);
+  color: var(--color-text);
+}
+
+/* modal shell */
+.auth-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.auth-modal.is-open {
+  display: flex;
+}
+
+.auth-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+}
+
+.auth-modal__content {
+  position: relative;
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.5rem 1.75rem;
+  width: min(420px, 92vw);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.12);
+  z-index: 1;
+  text-align: left;
+}
+
+.auth-modal__close {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.45rem;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+#auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+#auth-form input[type="email"],
+#auth-form input[type="password"] {
+  width: 100%;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.auth-primary {
+  background: #2FBBAA;
+  border: none;
+  color: #fff;
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 0.3rem;
+}
+
+.auth-switch {
+  margin-top: 0.6rem;
+  font-size: 0.78rem;
+}
+
+.auth-switch button {
+  background: none;
+  border: none;
+  color: #2FBBAA;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+
+/* Layout */
+main { 
+  margin-top: 20px; 
+}
+
+/* Responsive nav */
+@media (max-width: 500px) {
+  .nav-menu { 
+    flex-direction: column; 
+    gap: 10px; 
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .nav-menu {
+    flex-direction: column;
+  }
+}
+
+/* below 500px: show burger, hide menu (will re-show with JS) */
+@media (max-width: 500px) {
+  .nav-toggle {
+    display: block;
+  }
+  .nav-menu {
+    display: none;
+  }
+  .nav-menu.is-open {
+    display: flex;
+  }
+}
+
+/* mobile styles */
+@media (max-width: 542px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  /* hide menu by default */
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0;
+    position: absolute;   /* take it out of the doc flow */
+    top: 100%;            /* right below the nav bar */
+    left: 0;
+    background: rgba(255, 255, 255, 0.93); /* semi-transparent */
+    padding: 0.75rem 1rem;
+    box-shadow: 0 8px 20px rgba(0,0,0,.08);
+    z-index: 100;
+  }
+
+  .nav-menu li a {
+    text-align: left;
+  }
+}
+
+/* for smaller screens */
+
+@media (max-width: 600px) {
+  body {
+    padding: 10px; /* smaller outer padding */
+  }
+
+  .wrapper {
+    padding: 0.5rem;
+  }
+
+  main {
+    margin-top: 1rem;
+  }
+
+  .projects-list {
+    gap: 1rem;
+  }
+
+  /* make sure cards don’t overflow or look too wide */
+  .project-card {
+    max-width: 100%;
+    margin: 0 0 1rem 0;
+    border-radius: 12px;
+  }
+
+  /* for the header and text */
+
+  header {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  header h2 {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+  }
+
+  header h1 {
+    font-size: clamp(1.9rem, 7vw, 2.35rem);
+  }
+
+  .tag-line {
+    max-width: 30rem;
+    margin: 0.35rem auto 0.75rem;
+  }
+
+  .tag-line p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: rgba(38, 42, 46, 0.75);
+  }
+}
+
