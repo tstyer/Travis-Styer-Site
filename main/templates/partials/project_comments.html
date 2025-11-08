@@ -1,0 +1,49 @@
+<section class="comments">
+  <h3>Comments for {{ project.title }}</h3>
+
+  {# allow both Django-auth and sheet-auth #}
+  {% if user.is_authenticated or request.session.user_email %}
+    <form method="post" action="{% url 'comment_create' id=project.id %}" class="comment-form">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div class="form-group">
+        {{ form.content.errors }}
+        {{ form.content }}
+      </div>
+      <button type="submit" class="btn">Post comment</button>
+    </form>
+  {% else %}
+    <p><a href="{% url 'auth_login' %}">Sign in</a> to write a comment.</p>
+  {% endif %}
+
+  <ul class="comment-list">
+    {% for c in comments %}
+      <li class="comment-item">
+        <div class="comment-header">
+          <strong>{{ c.user.username }}</strong>
+          <span class="comment-date">{{ c.created_at|date:"Y-m-d H:i" }}</span>
+        </div>
+        <p class="comment-content">{{ c.content }}</p>
+
+        {# allow comment owner or staff to manage #}
+        {% if user.is_authenticated and c.user_id == user.id %}
+          <form method="post" action="{% url 'comment_delete' id=project.id comment_id=c.id %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-delete">Delete</button>
+          </form>
+          <form method="post" action="{% url 'comment_update' id=project.id comment_id=c.id %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-edit">Edit</button>
+          </form>
+        {% elif user.is_authenticated and user.is_staff %}
+          <form method="post" action="{% url 'comment_delete' id=project.id comment_id=c.id %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-delete">Delete</button>
+          </form>
+        {% endif %}
+      </li>
+    {% empty %}
+      <li>No comments yet. Be the first!</li>
+    {% endfor %}
+  </ul>
+</section>
