@@ -38,6 +38,36 @@
   color: var(--H2H3P-Colour);
 }
 
+/* HARD override: make sure fields are visible */
+.contact-card input,
+.contact-card textarea,
+.contact-card select {
+  display: block;
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  border: 1px solid rgba(47, 187, 170, 0.35) !important;
+  background-color: #ffffff !important;
+  color: var(--color-text);
+  outline: none;
+  box-shadow: none !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-card textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.contact-card input:focus,
+.contact-card textarea:focus,
+.contact-card select:focus {
+  border-color: rgba(47, 187, 170, 0.75) !important;
+  box-shadow: 0 0 0 3px rgba(47, 187, 170, 0.15) !important;
+}
+
 /* make sure the Django-rendered fields look like proper inputs */
 .form-row input,
 .form-row textarea {
