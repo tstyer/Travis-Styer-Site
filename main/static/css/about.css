@@ -44,3 +44,35 @@
   width: 100%;
   max-width: 240px;
 }
+
+/* default: show desktop image, hide mobile one */
+.about-illustration--mobile {
+  display: none;
+}
+
+.about-illustration--desktop {
+  display: block;
+}
+
+/* below 500px: stack, and move image between paragraphs */
+@media (max-width: 500px) {
+  .about-hero-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .about-illustration--desktop {
+    display: none;              /* hide side image */
+  }
+
+  .about-illustration--mobile {
+    display: block;             /* show inline image */
+    margin: 1.25rem auto;
+    max-width: 220px;
+  }
+
+  .about-copy {
+    text-align: left;
+  }
+}
