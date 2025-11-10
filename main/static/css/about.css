@@ -76,3 +76,40 @@
     text-align: left;
   }
 }
+
+/* default: desktop */
+.about-illustration--mobile {
+  display: none;          /* hide the inline image on desktop */
+}
+
+.about-illustration--desktop {
+  display: block;         /* show the right-hand avatar */
+}
+
+/* mobile layout */
+@media (max-width: 500px) {
+  .about-hero-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  /* don’t force flex sizing on mobile */
+  .about-illustration {
+    flex: none;
+  }
+
+  .about-illustration--desktop {
+    display: none;        /* hide side image */
+  }
+
+  .about-illustration--mobile {
+    display: block;       /* show image between paragraphs */
+    margin: 1.25rem auto;
+    max-width: 220px;
+  }
+
+  .about-copy {
+    text-align: left;
+  }
+}

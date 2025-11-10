@@ -60,34 +60,37 @@
     <main>
       <section class="about-hero">
         <div class="about-hero-inner">
-          <div class="about-copy">
-            <h2>Hey, I'm Travis</h2>
-            <p class="about-lede">
-              I’m a frontend developer and copywriter who designs and builds
-              maintainable sites for brands and creators.
-            </p>
+  <div class="about-copy">
+    <h2>Hey, I'm Travis</h2>
 
-             <!-- mobile image: only shows on smaller -->
-             <div class="about-illustration about-illustration--mobile">
-               <img
-               src="{% static 'images/avataaars.png' %}"
-               alt="Illustrated portrait of me">
-             </div>
+    <p class="about-lede">
+      I’m a frontend developer and copywriter who designs and builds
+      maintainable sites for brands and creators.
+    </p>
 
-            <p>
-              I combine UX/UI thinking with clean, accessible code, mainly
-              working with HTML, CSS, JavaScript, and React. I enjoy projects
-              where I can collaborate closely with my team, understand their
-              goals, and turn them into thoughtful digital experiences.
-            </p>
-          </div>
+    <!-- MOBILE IMAGE (sits between the two paragraphs) -->
+    <div class="about-illustration about-illustration--mobile">
+      <img
+        src="{% static 'images/avataaars.png' %}"
+        alt="Illustrated portrait of me">
+    </div>
 
-          <div class="about-illustration">
-            <img
-              src="{% static 'images/avataaars.png' %}"
-              alt="Illustrated portrait of me">
-          </div>
-        </div>
+    <p>
+      I combine UX/UI thinking with clean, accessible code, mainly
+      working with HTML, CSS, JavaScript, and React. I enjoy projects
+      where I can collaborate closely with my team, understand their
+      goals, and turn them into thoughtful digital experiences.
+    </p>
+  </div>
+
+  <!-- DESKTOP IMAGE (stays on the right on larger screens) -->
+  <div class="about-illustration about-illustration--desktop">
+    <img
+      src="{% static 'images/avataaars.png' %}"
+      alt="Illustrated portrait of me">
+  </div>
+</div>
+
       </section>
     </main>
 
