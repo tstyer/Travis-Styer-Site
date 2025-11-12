@@ -27,7 +27,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!--fav icon-->
-    <link rel="icon" type="png" href="../static/images/new_icon.png">
+    <link rel="icon" type="image/png" href="{% static 'images/new_icon.png' %}">
   </head>
 
   <body class="wrapper">
@@ -118,8 +118,7 @@
           <a
             href="https://www.github.com"
             target="_blank"
-            rel="noopener"
-            alt="Github Social Icon">
+            rel="noopener">
             <svg
               class="social"
               xmlns="http://www.w3.org/2000/svg"
@@ -133,8 +132,7 @@
           <a
             href="https://www.linkedin.com"
             target="_blank"
-            rel="noopener"
-            alt="LinkedIn Social Icon">
+            rel="noopener">
             <svg
               class="social"
               xmlns="http://www.w3.org/2000/svg"
@@ -179,7 +177,7 @@
               type="text"
               id="auth-username"
               name="username"
-              autocomplete="name"/>
+              autocomplete="name">
           </div>
 
           <label for="auth-email">Email</label>
@@ -190,7 +188,7 @@
             type="password"
             id="auth-password"
             name="password"
-            required/>
+            required>
 
           <!-- toggle to register or sign in -->
           <input type="hidden" id="auth-mode" name="mode" value="login">
