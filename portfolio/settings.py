@@ -27,7 +27,7 @@ if not SECRET_KEY:
     )
 
 # DEBUG: default True for local dev; override with env DEBUG=false in prod.
-DEBUG = os.getenv("DEBUG", "False").lower() in ("1", "true", "yes")
+DEBUG = False
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", "[::1]", ".herokuapp.com"]
 
@@ -109,7 +109,9 @@ USE_TZ = True
 # -------------------------
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [BASE_DIR / "main" / "static"]
+STATICFILES_DIRS = [
+    BASE_DIR / "main" / "static",
+    ]
 
 # Use Manifest storage only when not DEBUG (prevents 500s in dev if collectstatic not run)
 if DEBUG:
