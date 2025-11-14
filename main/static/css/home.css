@@ -34,7 +34,8 @@
   justify-content: center;
 }
 
-.tag {
+/* Only style the filter tags on the home page */
+.filters .tag {
   background-color: var(--H1-Colour);
   color: white;
   border: none;
@@ -44,9 +45,9 @@
   transition: background-color ease 0.3s;
 }
 
-.tag:hover {
+.filters .tag:hover {
   background-color: var(--H2H3P-Colour);  
-  box-shadow: 0 0 10px rgba(47, 187, 170, 0.6); /* I did this for a glow effect */
+  box-shadow: 0 0 10px rgba(47, 187, 170, 0.6);
   transform: scale(1.02); 
 }
 

@@ -197,9 +197,9 @@ p {
 
 /* Burger nav */
 
-/*button {
+button {
   color: var(--color-primary);
-}*/
+}
 
 .site-nav {
   position: sticky;
