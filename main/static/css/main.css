@@ -433,6 +433,23 @@ ul svg {
   font-weight: 500;
 }
 
+/* For sign in page */
+button.tag {
+  background-color: transparent !important;
+  color: var(--color-text) !important;
+  border: 1.5px solid rgba(47, 187, 170, 0.4) !important;
+  border-radius: 6px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: none;
+}
+
+button.tag:hover {
+  background-color: rgba(47, 187, 170, 0.12) !important;
+  box-shadow: 0 0 10px rgba(47, 187, 170, 0.35);
+  transform: scale(1.02);
+}
 
 /* Layout */
 main { 
