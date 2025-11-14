@@ -265,59 +265,52 @@ def auth_register(request):
     return JsonResponse({"success": True, "username": username})
 
 
-@require_POST
 def auth_login(request):
     """
-    Logs a user in by checking email + password against Google Sheet.
+    GET  -> show a simple login form (HTML)
+    POST -> check email + password against Google Sheet and set session.
     """
-    email = request.POST.get("email", "").strip().lower()
-    password = request.POST.get("password", "").strip()
+    if request.method == "POST":
+        email = request.POST.get("email", "").strip().lower()
+        password = request.POST.get("password", "").strip()
 
-    if not email or not password:
-        return JsonResponse(
-            {"success": False, "error": "Email and password required."},
-            status=400,
-        )
+        if not email or not password:
+            messages.error(request, "Email and password are required.")
+            return render(request, "auth_login.html", {"email": email})
 
-    try:
-        ws = get_users_sheet()
-        records = ws.get_all_records(
-            expected_headers=["User Name", "Email", "Date Joined", "Password"]
-        )
-    except Exception as e:
-        return JsonResponse(
-            {"success": False, "error": f"Sheet error: {e}"},
-            status=500,
-        )
+        try:
+            ws = get_users_sheet()
+            records = ws.get_all_records(
+                expected_headers=["User Name", "Email", "Date Joined", "Password"]
+            )
+        except Exception as e:
+            messages.error(request, f"Sheet error: {e}")
+            return render(request, "auth_login.html", {"email": email})
 
-    matched = None
-    for row in records:
-        row_email = row.get("Email", "").strip().lower()
-        row_pass = row.get("Password", "").strip() if "Password" in row else ""
-        if row_email == email:
-            # check hashed password
-            if check_password(password, row_pass):
+        matched = None
+        for row in records:
+            row_email = row.get("Email", "").strip().lower()
+            row_pass = row.get("Password", "").strip() if "Password" in row else ""
+            if row_email == email and check_password(password, row_pass):
                 matched = row
                 break
 
-    if not matched:
-        return JsonResponse(
-            {"success": False, "error": "Invalid credentials."},
-            status=401,
+        if not matched:
+            messages.error(request, "Invalid credentials.")
+            return render(request, "auth_login.html", {"email": email})
+
+        # set session for comment posting
+        request.session["user_email"] = matched.get("Email")
+        request.session["user_name"] = (
+            matched.get("User Name") or matched.get("Username") or "Guest"
         )
 
-    # set session for comment posting
-    request.session["user_email"] = matched.get("Email")
-    request.session["user_name"] = (
-        matched.get("User Name") or matched.get("Username") or "Guest"
-    )
+        next_url = request.POST.get("next") or request.GET.get("next") or reverse("home")
+        return redirect(next_url)
 
-    return JsonResponse(
-        {
-            "success": True,
-            "username": request.session["user_name"],
-        }
-    )
+    # GET: show the login form
+    return render(request, "auth_login.html")
+
 
 # Self-learn note:
 #  Views are functions called when wanting to display a page.
