@@ -23,35 +23,21 @@
 
   <body class="wrapper">
 
-    <!-- NAVBAR (same structure as other pages) -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">
-          Travis Styer
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link{% if request.resolver_match.url_name == 'home' %} active{% endif %}"
-                 href="{% url 'home' %}">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link{% if request.resolver_match.url_name == 'about' %} active{% endif %}"
-                 href="{% url 'about' %}">About Me</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link{% if request.resolver_match.url_name == 'contact' %} active{% endif %}"
-                 href="{% url 'contact' %}">Contact</a>
-            </li>
-          </ul>
-        </div>
-      </div>
+    <!-- NavBar -->
+    <nav class="site-nav">
+      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+      <ul class="nav justify-content-center nav-menu">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'about' %}">About Me</a>
+        </li>
+      </ul>
+      <button type="button" class="auth-btn" id="open-auth-modal">Sign in / Register</button>
     </nav>
 
     <!-- MAIN CONTENT -->
@@ -108,7 +94,7 @@
                        value="{{ request.GET.next|default:request.META.HTTP_REFERER }}">
 
                 <div class="d-grid">
-                  <button type="submit" class="btn btn-primary">
+                  <button type="submit" class="tag">
                     Sign in
                   </button>
                 </div>
