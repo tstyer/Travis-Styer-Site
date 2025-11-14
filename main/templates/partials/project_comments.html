@@ -13,7 +13,7 @@
       <button type="submit" class="btn">Post comment</button>
     </form>
   {% else %}
-    <<p>
+    <p>
      <a href="{% url 'auth_login' %}?next={{ request.path }}">Sign in</a>
      to write a comment.
     </p>
