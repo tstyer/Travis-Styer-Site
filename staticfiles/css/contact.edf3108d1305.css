@@ -10,7 +10,7 @@
   width: min(720px, 100%);
   margin: 0 auto 0.75rem;          /* was 1rem / 2.5rem – less space at bottom */
   padding: 0.9rem 1.2rem;          /* was 1rem 1.25rem / 2.25rem 2.5rem */
-  background: rgba(255, 255, 255, 0.95); 
+  background: red; !important  /* rgba(255, 255, 255, 0.95); */
   border-radius: 18px;
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.06);
   text-align: left;

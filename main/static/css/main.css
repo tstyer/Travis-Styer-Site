@@ -22,20 +22,23 @@
   padding: 0; 
 }
 
-html, body { 
-  height: 100%; 
-}
-
-body {
-  font-family: var(--font-body);
-  line-height: 1.7;
-  color: var(--color-text);
+html {
+  min-height: 100%;
   background: linear-gradient(
     135deg,
     #E7D6FF 0%,
     #E4F8F2 45%,
     #F6FAFF 100%
   );
+}
+
+/* body sits on top, but is transparent */
+body {
+  font-family: var(--font-body);
+  line-height: 1.7;
+  color: var(--color-text);
+  min-height: 100vh;          /* body at least full viewport height */
+  background: transparent;    /* ✅ no extra background here */
   padding: 20px;
   display: flex;
   flex-direction: column;
