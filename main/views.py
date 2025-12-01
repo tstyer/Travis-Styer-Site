@@ -8,6 +8,8 @@ from django.http import JsonResponse
 from django.conf import settings
 from django.utils import timezone
 import gspread
+from django.views.decorators.csrf import csrf_exempt
+
 
 from .models import Project, Tag, Comment
 from .forms import CommentForm, ContactForm
@@ -198,7 +200,7 @@ def get_users_sheet():
     ws = sh.worksheet("user")
     return ws
 
-
+@csrf_exempt
 @require_POST
 def auth_register(request):
     email = request.POST.get("email", "").strip().lower()
