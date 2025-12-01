@@ -13,6 +13,10 @@ from .forms import CommentForm, ContactForm
 
 from datetime import datetime
 
+USER_SHEET_HEADERS = ["User Name", "Email", "Date Joined", "Password (Now Hashed)"]
+PASSWORD_HEADER = "Password (Now Hashed)"   # must match sheet header 
+
+
 # Create views here.
 
 def home(request):
@@ -20,8 +24,6 @@ def home(request):
     tags = Tag.objects.all()
     # Rendering just means to show on the screen.
     return render(request, "index.html", {"projects": projects, "tags": tags})
-
-
 
 
 def contact(request):
@@ -200,10 +202,6 @@ def get_users_sheet():
 
 @require_POST
 def auth_register(request):
-    """
-    Register a new user in Google Sheets.
-    Expected fields: username, email, password.
-    """
     email = request.POST.get("email", "").strip().lower()
     password = request.POST.get("password", "").strip()
     username = request.POST.get("username", "").strip()
@@ -214,7 +212,6 @@ def auth_register(request):
             status=400,
         )
 
-    # open sheet
     try:
         ws = get_users_sheet()
     except Exception as e:
@@ -225,9 +222,7 @@ def auth_register(request):
 
     # read rows using the exact header order in the sheet
     try:
-        records = ws.get_all_records(
-            expected_headers=["User Name", "Email", "Date Joined", "Password"]
-        )
+        records = ws.get_all_records(expected_headers=USER_SHEET_HEADERS)
     except Exception as e:
         return JsonResponse(
             {"success": False, "error": f"Read error: {e}"},
@@ -241,15 +236,15 @@ def auth_register(request):
                 {"success": False, "error": "Email already registered."},
                 status=400,
             )
-        
+
     hashed_password = make_password(password)
 
-    # build row in same order as header
-    now = timezone.localtime(timezone.now())   # UK time
+    now = timezone.localtime(timezone.now())
     now_str = now.strftime("%Y-%m-%d %H:%M:%S")
+
+    # build row in same order as header
     new_row = [username, email, now_str, hashed_password]
 
-    # write to sheet
     try:
         ws.append_row(new_row)
     except Exception as e:
@@ -258,7 +253,6 @@ def auth_register(request):
             status=500,
         )
 
-    # store mini-session for comments
     request.session["user_email"] = email
     request.session["user_name"] = username
 
@@ -266,10 +260,6 @@ def auth_register(request):
 
 
 def auth_login(request):
-    """
-    GET  -> show a simple login form (HTML)
-    POST -> check email + password against Google Sheet and set session.
-    """
     if request.method == "POST":
         email = request.POST.get("email", "").strip().lower()
         password = request.POST.get("password", "").strip()
@@ -280,9 +270,7 @@ def auth_login(request):
 
         try:
             ws = get_users_sheet()
-            records = ws.get_all_records(
-                expected_headers=["User Name", "Email", "Date Joined", "Password"]
-            )
+            records = ws.get_all_records(expected_headers=USER_SHEET_HEADERS)
         except Exception as e:
             messages.error(request, f"Sheet error: {e}")
             return render(request, "auth_login.html", {"email": email})
@@ -290,8 +278,8 @@ def auth_login(request):
         matched = None
         for row in records:
             row_email = row.get("Email", "").strip().lower()
-            row_pass = row.get("Password", "").strip() if "Password" in row else ""
-            if row_email == email and check_password(password, row_pass):
+            row_pass = row.get(PASSWORD_HEADER, "").strip()
+            if row_email == email and row_pass and check_password(password, row_pass):
                 matched = row
                 break
 
