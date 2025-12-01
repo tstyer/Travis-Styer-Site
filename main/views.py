@@ -277,7 +277,11 @@ def auth_login(request):
         matched = None
         for row in records:
             row_email = row.get("Email", "").strip().lower()
-            row_pass = row.get(PASSWORD_HEADER, "").strip()
+
+            # Safe conversion (fixes the int/no-strip error)
+            raw_value = row.get(PASSWORD_HEADER, "")
+            row_pass = str(raw_value or "").strip()
+
             if row_email == email and row_pass and check_password(password, row_pass):
                 matched = row
                 break
@@ -286,7 +290,6 @@ def auth_login(request):
             messages.error(request, "Invalid credentials.")
             return render(request, "auth_login.html", {"email": email})
 
-        # set session for comment posting
         request.session["user_email"] = matched.get("Email")
         request.session["user_name"] = (
             matched.get("User Name") or matched.get("Username") or "Guest"
@@ -295,7 +298,6 @@ def auth_login(request):
         next_url = request.POST.get("next") or request.GET.get("next") or reverse("home")
         return redirect(next_url)
 
-    # GET: show the login form
     return render(request, "auth_login.html")
 
 
