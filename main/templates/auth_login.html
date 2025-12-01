@@ -37,7 +37,19 @@
           <a class="nav-link" href="{% url 'about' %}">About Me</a>
         </li>
       </ul>
-      <button type="button" class="auth-btn" id="open-auth-modal">Sign in / Register</button>
+      {% if request.user.is_authenticated or request.session.user_email %}
+    <!-- Logged in: show Sign out -->
+    <form method="post" action="{% url 'auth_logout' %}">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.path }}">
+      <button type="submit" class="auth-btn">Sign out</button>
+    </form>
+  {% else %}
+    <!-- Logged out: show Sign in / Register modal trigger -->
+    <button type="button" class="auth-btn" id="open-auth-modal">
+      Sign in / Register
+    </button>
+  {% endif %}
     </nav>
 
     <!-- MAIN CONTENT -->

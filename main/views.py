@@ -9,6 +9,8 @@ from django.conf import settings
 from django.utils import timezone
 import gspread
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import logout as django_logout
+from django.views.decorators.http import require_POST
 
 
 from .models import Project, Tag, Comment
@@ -307,6 +309,21 @@ def auth_login(request):
         return redirect(next_url)
 
     return render(request, "auth_login.html")
+
+# For users signed in - shows 'log out' option
+@require_POST
+def auth_logout(request):
+    # Clear sheet-based session keys
+    request.session.pop("user_email", None)
+    request.session.pop("user_name", None)
+    request.session.pop("author_name", None)
+
+    # Also log out any Django-auth user, just in case
+    django_logout(request)
+
+    messages.success(request, "Signed out.")
+    next_url = request.POST.get("next") or request.META.get("HTTP_REFERER") or reverse("home")
+    return redirect(next_url)
 
 
 # Self-learn note:
