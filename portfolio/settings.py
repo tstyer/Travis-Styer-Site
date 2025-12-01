@@ -3,7 +3,7 @@ Django settings for portfolio project.
 """
 
 from pathlib import Path
-import os
+import json, os
 import dj_database_url
 if os.path.isfile('env.py'):
     import env
@@ -11,6 +11,14 @@ if os.path.isfile('env.py'):
 # Paths
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+GOOGLE_CREDS_DICT = None
+GOOGLE_SERVICE_ACCOUNT_FILE = None
+
+if os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON"):
+    GOOGLE_CREDS_DICT = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"])
+else:
+    # Fallback for local dev with a file
+    GOOGLE_SERVICE_ACCOUNT_FILE = BASE_DIR / "creds.json"
 
 # Security
 SECRET_KEY = os.environ.get("SECRET_KEY")
