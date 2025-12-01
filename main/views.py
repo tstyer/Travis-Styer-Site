@@ -207,11 +207,16 @@ def auth_register(request):
     password = request.POST.get("password", "").strip()
     username = request.POST.get("username", "").strip()
 
-    if not email or not password or not username:
+    # only email + password are truly required
+    if not email or not password:
         return JsonResponse(
             {"success": False, "error": "All fields required."},
             status=400,
         )
+
+    # if no username was sent (your current modal), derive from email
+    if not username:
+        username = email.split("@")[0]
 
     try:
         ws = get_users_sheet()
@@ -243,7 +248,8 @@ def auth_register(request):
     now = timezone.localtime(timezone.now())
     now_str = now.strftime("%Y-%m-%d %H:%M:%S")
 
-    # build row in same order as header
+    # build row in same order as USER_SHEET_HEADERS:
+    # ["User Name", "Email", "Date Joined", "Password (Now Hashed)"]
     new_row = [username, email, now_str, hashed_password]
 
     try:
