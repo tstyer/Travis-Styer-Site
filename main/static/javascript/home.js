@@ -272,10 +272,7 @@ if (authForm) {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          closeAuth();
-          if (data.username) {
-            setLoggedIn(data.username);
-          }
+    window.location.reload();
         } else {
           alert(data.error || "Could not complete request.");
         }
