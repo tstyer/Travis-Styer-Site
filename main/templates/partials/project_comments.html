@@ -12,10 +12,6 @@
       {% csrf_token %}
       {{ form.non_field_errors }}
 
-      <label for="{{ form.content.id_for_label }}" class="comments-form__label">
-        Give me suggestions or leave feedback!
-      </label>
-
       <div class="comments-form__field">
         {{ form.content.errors }}
         {{ form.content }}

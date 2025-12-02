@@ -319,6 +319,7 @@ ul svg {
   flex-direction: column;
   border-radius: 18px;
   padding: 1.75rem 2rem;
+  overflow: hidden;
   background: #ffffff;
   box-shadow: 0 18px 40px rgba(22, 42, 65, 0.25);
 }
@@ -424,6 +425,26 @@ ul svg {
 .comments-btn-primary:active {
   transform: translateY(0);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Project "Comments" buttons */
+.comment-btn {
+  background: rgba(47, 187, 170, 0.10);
+  border: 1px solid rgba(47, 187, 170, 0.35);
+  border-radius: 999px;
+  padding: 0.25rem 0.9rem;
+  font-size: 0.85rem;
+  color: #249988;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  box-shadow: none;
+}
+
+.comment-btn:hover {
+  background: rgba(47, 187, 170, 0.22);
+  color: var(--color-text);
 }
 
 /* Sign-in note when not logged in */
