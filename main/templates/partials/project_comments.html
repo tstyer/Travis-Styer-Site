@@ -1,52 +1,58 @@
-<section class="comments">
-  <h3>Comments for {{ project.title }}</h3>
 
-  {# allow both Django-auth and sheet-auth #}
-  {% if user.is_authenticated or request.session.user_email %}
-    <form method="post" action="{% url 'comment_create' id=project.id %}" class="comment-form">
+<div class="comments-panel">
+  <header class="comments-panel__header">
+    <h2>Comments for {{ project.title }}</h2>
+  </header>
+
+  {# COMMENT FORM #}
+  {% if form %}
+    <form method="post"
+          action="{% url 'comment_create' id=project.id %}"
+          class="comments-form">
       {% csrf_token %}
       {{ form.non_field_errors }}
-      <div class="form-group">
+
+      <label for="{{ form.content.id_for_label }}" class="comments-form__label">
+        Give me suggestions or leave feedback!
+      </label>
+
+      <div class="comments-form__field">
         {{ form.content.errors }}
         {{ form.content }}
       </div>
-      <button type="submit" class="btn">Post comment</button>
+
+      <div class="comments-form__actions">
+        <button type="submit" class="comments-btn-primary">
+          Post comment
+        </button>
+      </div>
     </form>
   {% else %}
-    <p>
-     <a href="{% url 'auth_login' %}?next={{ request.path }}">Sign in</a>
-     to write a comment.
+    <p class="comments-signin-note">
+      You need to be signed in to leave a comment.
     </p>
   {% endif %}
 
-  <ul class="comment-list">
-    {% for c in comments %}
-      <li class="comment-item">
-        <div class="comment-header">
-          <strong>{{ c.user.username }}</strong>
-          <span class="comment-date">{{ c.created_at|date:"Y-m-d H:i" }}</span>
-        </div>
-        <p class="comment-content">{{ c.content }}</p>
-
-        {# allow comment owner or staff to manage #}
-        {% if user.is_authenticated and c.user_id == user.id %}
-          <form method="post" action="{% url 'comment_delete' id=project.id comment_id=c.id %}" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-delete">Delete</button>
-          </form>
-          <form method="post" action="{% url 'comment_update' id=project.id comment_id=c.id %}" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-edit">Edit</button>
-          </form>
-        {% elif user.is_authenticated and user.is_staff %}
-          <form method="post" action="{% url 'comment_delete' id=project.id comment_id=c.id %}" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-delete">Delete</button>
-          </form>
-        {% endif %}
-      </li>
-    {% empty %}
-      <li>No comments yet. Be the first!</li>
-    {% endfor %}
-  </ul>
-</section>
+  {# SCROLLABLE COMMENTS LIST #}
+  <div class="comments-scroll">
+    {% if comments %}
+      {% for c in comments %}
+        <article class="comment-card">
+          <header class="comment-card__meta">
+            <span class="comment-card__author">
+              {{ c.user.username|default:c.author_name|default:"Anon" }}
+            </span>
+            <time class="comment-card__date" datetime="{{ c.created_at|date:'c' }}">
+              {{ c.created_at|date:"Y-m-d H:i" }}
+            </time>
+          </header>
+          <p class="comment-card__body">
+            {{ c.content }}
+          </p>
+        </article>
+      {% endfor %}
+    {% else %}
+      <p class="comments-empty">No comments yet. Be the first!</p>
+    {% endif %}
+  </div>
+</div>
