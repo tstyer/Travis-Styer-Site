@@ -253,10 +253,19 @@ function getCsrfTokenFromForm(formEl) {
 
 // submit handler (always)
 const authForm = document.getElementById("auth-form");
-
 if (authForm) {
+  const submitBtn = authForm.querySelector(".auth-primary");
+
   authForm.addEventListener("submit", (e) => {
     e.preventDefault();
+
+    if (!submitBtn) return;
+
+    // Start loading state
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = "Signing in…";
+    submitBtn.classList.add("is-loading");
+    submitBtn.disabled = true;
 
     const formData = new FormData(authForm);
     const mode = formData.get("mode"); // "login" or "register"
@@ -265,7 +274,6 @@ if (authForm) {
     const headers = {
       "X-Requested-With": "XMLHttpRequest",
     };
-
     if (csrfToken) {
       headers["X-CSRFToken"] = csrfToken;
     }
@@ -278,16 +286,22 @@ if (authForm) {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          // Close modal and force a full reload so Django can
-          // re-render the navbar with "Sign out"
           closeAuth();
-          window.location.reload();
+          window.location.reload(); // page will re-render with "Sign out"
         } else {
           alert(data.error || "Could not complete request.");
+          // Reset button on error
+          submitBtn.textContent = originalText;
+          submitBtn.classList.remove("is-loading");
+          submitBtn.disabled = false;
         }
       })
       .catch(() => {
         alert("Network error");
+        // Reset on network failure
+        submitBtn.textContent = originalText;
+        submitBtn.classList.remove("is-loading");
+        submitBtn.disabled = false;
       });
   });
 }
