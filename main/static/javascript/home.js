@@ -144,7 +144,7 @@ if (btn && menu) {
 
 /*
    COMMENTS MODAL
-    */
+*/
 const modal = document.getElementById("comments-modal");
 const modalBody = document.getElementById("comments-modal-body");
 
@@ -189,7 +189,7 @@ if (commentsBackdrop) {
 
 /* 
    AUTH MODAL
-    */
+*/
 const authModal = document.getElementById("auth-modal");
 const openAuthBtn = document.getElementById("open-auth-modal");
 const closeAuthBtn = document.querySelector(".auth-modal__close");
@@ -199,7 +199,7 @@ const authTitle = authModal ? authModal.querySelector(".auth-title") : null;
 const authSub = authModal ? authModal.querySelector(".auth-sub") : null;
 const authModeInput = document.getElementById("auth-mode");
 
-// this is the badge that will show "Hi, Travis"
+// this is the badge that will show "Hi, User"
 const userBadge = document.getElementById("user-badge");
 
 function setLoggedIn(username) {
@@ -242,6 +242,12 @@ if (switchToRegister) {
   });
 }
 
+/* ---- CSRF helper ---- */
+function getCsrfTokenFromForm(formEl) {
+  const tokenInput = formEl.querySelector('input[name="csrfmiddlewaretoken"]');
+  return tokenInput ? tokenInput.value : "";
+}
+
 // submit handler (always)
 const authForm = document.getElementById("auth-form");
 if (authForm) {
@@ -249,13 +255,19 @@ if (authForm) {
     e.preventDefault();
     const formData = new FormData(authForm);
     const mode = formData.get("mode"); // "login" or "register"
+    const csrfToken = getCsrfTokenFromForm(authForm);
+
+    const headers = {
+      "X-Requested-With": "XMLHttpRequest",
+    };
+    if (csrfToken) {
+      headers["X-CSRFToken"] = csrfToken;
+    }
 
     fetch(`/auth/${mode}/`, {
       method: "POST",
       body: formData,
-      headers: {
-        "X-Requested-With": "XMLHttpRequest",
-      },
+      headers: headers,
     })
       .then((res) => res.json())
       .then((data) => {

@@ -150,7 +150,8 @@
         <h2 class="auth-title">Welcome back</h2>
         <p class="auth-sub">Sign in to leave a comment.</p>
 
-        <form id="auth-form">
+        <form id="auth-form" method="post">
+          {% csrf_token %}
           <div id="auth-username-wrap" style="display: none">
             <label for="auth-username">Name</label>
             <input type="text" id="auth-username" name="username" autocomplete="name" />
