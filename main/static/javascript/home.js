@@ -153,11 +153,13 @@ const modalBody = document.getElementById("comments-modal-body");
 function openCommentsModal(projectId) {
   if (!modal) return;
   modal.classList.add("is-open");
+  modalBody.innerHTML = "<p>Loading comments…</p>";
 
   fetch(`/project/${projectId}/comments/partial/`)
     .then((res) => res.text())
     .then((html) => {
       modalBody.innerHTML = html;
+      wireCommentsModal(modalBody);
     })
     .catch(() => {
       modalBody.innerHTML = "<p>Couldn't load comments.</p>";
@@ -249,6 +251,68 @@ if (switchToRegister) {
 function getCsrfTokenFromForm(formEl) {
   const tokenInput = formEl.querySelector('input[name="csrfmiddlewaretoken"]');
   return tokenInput ? tokenInput.value : "";
+}
+
+function wireCommentsModal(rootEl) {
+  if (!rootEl) return;
+
+  // Handle create / update of comments
+  const commentForm = rootEl.querySelector(".comments-form");
+  if (commentForm) {
+    commentForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(commentForm);
+      const action = commentForm.getAttribute("action");
+      const csrfToken = getCsrfTokenFromForm(commentForm);
+
+      const headers = { "X-Requested-With": "XMLHttpRequest" };
+      if (csrfToken) headers["X-CSRFToken"] = csrfToken;
+
+      fetch(action, {
+        method: "POST",
+        body: formData,
+        headers: headers,
+      })
+        .then((res) => res.text())
+        .then((html) => {
+          modalBody.innerHTML = html;
+          wireCommentsModal(modalBody); // re-wire new DOM
+        })
+        .catch(() => {
+          alert("Could not post comment.");
+        });
+    });
+  }
+
+  // Handle delete
+  rootEl.querySelectorAll(".comment-delete-form").forEach((form) => {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!confirm("Delete this comment?")) return;
+
+      const formData = new FormData(form);
+      const action = form.getAttribute("action");
+      const csrfToken = getCsrfTokenFromForm(form);
+
+      const headers = { "X-Requested-With": "XMLHttpRequest" };
+      if (csrfToken) headers["X-CSRFToken"] = csrfToken;
+
+      fetch(action, {
+        method: "POST",
+        body: formData,
+        headers: headers,
+      })
+        .then((res) => res.text())
+        .then((html) => {
+          modalBody.innerHTML = html;
+          wireCommentsModal(modalBody); // re-wire after update
+        })
+        .catch(() => {
+          alert("Could not delete comment.");
+        });
+    });
+  });
 }
 
 // submit handler (always)

@@ -11,6 +11,7 @@ import gspread
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import logout as django_logout
 from django.views.decorators.http import require_POST
+from django.http import JsonResponse, HttpResponseForbidden 
 
 
 from .models import Project, Tag, Comment
@@ -176,7 +177,141 @@ def comment_update(request, id, comment_id):
 
 @login_required
 @require_POST
+def comment_create(request, id):
+    """
+    Create a new comment on a project.
+
+    - Normal POST: redirect back to the project page (existing behaviour)
+    - AJAX (from home-page modal): return updated comments partial HTML
+    """
+    project_obj = get_object_or_404(Project, pk=id)
+    is_ajax = request.headers.get("x-requested-with") == "XMLHttpRequest"
+
+    # detect auth method
+    is_django_user = request.user.is_authenticated
+    sheet_email = request.session.get("user_email")
+    sheet_name = request.session.get("user_name")
+    session_author_name = request.session.get("author_name")
+    has_sheet_identity = bool(sheet_email or sheet_name or session_author_name)
+
+    # block if neither is present
+    if not is_django_user and not has_sheet_identity:
+        if is_ajax:
+            return HttpResponseForbidden("Sign in required.")
+        messages.error(request, "Sign in is required to comment.")
+        return redirect(reverse("project", kwargs={"id": project_obj.pk}))
+
+    form = CommentForm(request.POST)
+
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.project = project_obj
+
+        if is_django_user:
+            comment.user = request.user
+        else:
+            comment.author_name = sheet_name or session_author_name or sheet_email
+
+        comment.save()
+
+        if is_ajax:
+            # re-render the comments partial
+            comments = project_obj.comments.select_related("user").order_by("-created_at")
+            can_comment = is_django_user or has_sheet_identity
+            new_form = CommentForm() if can_comment else None
+
+            return render(
+                request,
+                "partials/project_comments.html",
+                {
+                    "project": project_obj,
+                    "comments": comments,
+                    "form": new_form,
+                },
+            )
+
+        messages.success(request, "Comment posted.")
+    else:
+        if is_ajax:
+            comments = project_obj.comments.select_related("user").order_by("-created_at")
+            return render(
+                request,
+                "partials/project_comments.html",
+                {
+                    "project": project_obj,
+                    "comments": comments,
+                    "form": form,  # with validation errors
+                },
+            )
+        messages.error(request, "Please fix the errors and try again.")
+
+    return redirect(reverse("project", kwargs={"id": project_obj.pk}))
+
+
+@require_POST
 def comment_delete(request, id, comment_id):
+    """
+    Delete a comment.
+
+    - Django users: can delete comments where comment.user == request.user
+    - Sheet/session users: can delete comments where author_name matches their session
+    - AJAX: return updated partial; normal POST: redirect back to project
+    """
+    project_obj = get_object_or_404(Project, pk=id)
+    is_ajax = request.headers.get("x-requested-with") == "XMLHttpRequest"
+
+    is_django_user = request.user.is_authenticated
+    sheet_email = request.session.get("user_email")
+    sheet_name = request.session.get("user_name")
+    session_author = request.session.get("author_name")
+    has_sheet_identity = bool(sheet_email or sheet_name or session_author)
+
+    if is_django_user:
+        comment = get_object_or_404(
+            Comment,
+            pk=comment_id,
+            project=project_obj,
+            user=request.user,
+        )
+    elif has_sheet_identity:
+        # Only allow deleting sheet-based comments that belong to this session identity
+        comment = get_object_or_404(
+            Comment,
+            pk=comment_id,
+            project=project_obj,
+            user__isnull=True,
+        )
+        identities = {v for v in [sheet_name, session_author, sheet_email] if v}
+        if comment.author_name not in identities:
+            if is_ajax:
+                return HttpResponseForbidden("Not allowed.")
+            messages.error(request, "You cannot delete this comment.")
+            return redirect(reverse("project", kwargs={"id": project_obj.pk}))
+    else:
+        if is_ajax:
+            return HttpResponseForbidden("Not allowed.")
+        messages.error(request, "You must be signed in to delete comments.")
+        return redirect(reverse("project", kwargs={"id": project_obj.pk}))
+
+    comment.delete()
+    messages.success(request, "Comment deleted.")
+
+    if is_ajax:
+        comments = project_obj.comments.select_related("user").order_by("-created_at")
+        can_comment = is_django_user or has_sheet_identity
+        form = CommentForm() if can_comment else None
+
+        return render(
+            request,
+            "partials/project_comments.html",
+            {
+                "project": project_obj,
+                "comments": comments,
+                "form": form,
+            },
+        )
+
+    return redirect(reverse("project", kwargs={"id": project_obj.pk}))
     """
     Delete a comment (only by its owner).
     """
@@ -216,7 +351,7 @@ def auth_register(request):
             status=400,
         )
 
-    # if no username was sent (your current modal), derive from email
+    # if no username was sent, derive from email
     if not username:
         username = email.split("@")[0]
 

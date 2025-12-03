@@ -462,7 +462,7 @@ ul svg {
 }
 
 
-/* Hide ugly scrollbar on WebKit while keeping scroll */
+/* Hide scrollbar on WebKit while keeping scroll */
 .comments-scroll::-webkit-scrollbar {
   width: 6px;
 }
@@ -517,10 +517,38 @@ ul svg {
   margin-top: 1rem;
 }
 
-/* when JS adds .is-open, we show it */
+/* when JS adds .is-open, show it */
 .comments-modal.is-open {
   display: flex;
 }
+
+.comment-card__meta-right {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: auto;
+}
+
+.comment-delete-form {
+  margin: 0;
+}
+
+.comment-delete-btn {
+  border: none;
+  background: transparent;
+  color: #e57373;
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.comment-delete-btn:hover {
+  background: rgba(229, 115, 115, 0.12);
+  color: #c62828;
+}
+
 
 
 /* copyright line under footer */
