@@ -110,8 +110,6 @@ def project_comments_partial(request, id):
 
 # Below is the ability to add comments to satisfy CRUD.
 
-@require_POST
-def comment_create(request, id):
     """
     Create a new comment on a project.
     only accepts:
@@ -175,13 +173,12 @@ def comment_update(request, id, comment_id):
     return redirect(reverse("project", kwargs={"id": project_obj.pk}))
 
 
-@login_required
 @require_POST
 def comment_create(request, id):
     """
     Create a new comment on a project.
 
-    - Normal POST: redirect back to the project page (existing behaviour)
+    - Normal POST: redirect back to the project page
     - AJAX (from home-page modal): return updated comments partial HTML
     """
     project_obj = get_object_or_404(Project, pk=id)
@@ -215,7 +212,6 @@ def comment_create(request, id):
         comment.save()
 
         if is_ajax:
-            # re-render the comments partial
             comments = project_obj.comments.select_related("user").order_by("-created_at")
             can_comment = is_django_user or has_sheet_identity
             new_form = CommentForm() if can_comment else None
@@ -240,12 +236,13 @@ def comment_create(request, id):
                 {
                     "project": project_obj,
                     "comments": comments,
-                    "form": form,  # with validation errors
+                    "form": form,
                 },
             )
         messages.error(request, "Please fix the errors and try again.")
 
     return redirect(reverse("project", kwargs={"id": project_obj.pk}))
+
 
 
 @require_POST
@@ -312,19 +309,6 @@ def comment_delete(request, id, comment_id):
         )
 
     return redirect(reverse("project", kwargs={"id": project_obj.pk}))
-    """
-    Delete a comment (only by its owner).
-    """
-    project_obj = get_object_or_404(Project, pk=id)
-    comment = get_object_or_404(
-        Comment, pk=comment_id, project=project_obj, user=request.user
-    )
-
-    comment.delete()
-    messages.success(request, "Comment deleted.")
-
-    return redirect(reverse("project", kwargs={"id": project_obj.pk}))
-
 
 # this is a Google Sheet helper / auth 
 def get_users_sheet():
