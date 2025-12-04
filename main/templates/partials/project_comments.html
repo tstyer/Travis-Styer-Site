@@ -39,31 +39,36 @@
             </span>
 
             <div class="comment-card__meta-right">
-              <time class="comment-card__date" datetime="{{ c.created_at|date:'c' }}">
+              <time class="comment-card__date"
+                    datetime="{{ c.created_at|date:'c' }}">
                 {{ c.created_at|date:"Y-m-d H:i" }}
               </time>
 
-              {# Delete button for owner #}
+              {# Delete button: Django user who owns this comment #}
               {% if request.user.is_authenticated and c.user_id == request.user.id %}
                 <form method="post"
                       action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
                       class="comment-delete-form">
                   {% csrf_token %}
-                  <button type="submit" class="comment-delete-btn">Delete</button>
+                  <button type="submit" class="comment-delete-btn">
+                    Delete
+                  </button>
                 </form>
+
+              {# Delete button: sheet/session user who owns this comment #}
               {% elif not c.user_id and request.session.user_email %}
-                {% with session_name=request.session.user_name
-                        session_author=request.session.author_name
-                        session_email=request.session.user_email %}
-                  {% if c.author_name == session_name or c.author_name == session_author or c.author_name == session_email %}
-                    <form method="post"
-                          action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
-                          class="comment-delete-form">
-                      {% csrf_token %}
-                      <button type="submit" class="comment-delete-btn">Delete</button>
-                    </form>
-                  {% endif %}
-                {% endwith %}
+                {% if c.author_name == request.session.user_name
+                      or c.author_name == request.session.author_name
+                      or c.author_name == request.session.user_email %}
+                  <form method="post"
+                        action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
+                        class="comment-delete-form">
+                    {% csrf_token %}
+                    <button type="submit" class="comment-delete-btn">
+                      Delete
+                    </button>
+                  </form>
+                {% endif %}
               {% endif %}
             </div>
           </header>
