@@ -28,7 +28,6 @@
     </p>
   {% endif %}
 
-  {# SCROLLABLE COMMENTS LIST #}
   <div class="comments-scroll">
     {% if comments %}
       {% for c in comments %}
@@ -44,7 +43,7 @@
                 {{ c.created_at|date:"Y-m-d H:i" }}
               </time>
 
-              {# --- ACTIONS: EDIT + DELETE, only for owner --- #}
+              {# Owner actions: EDIT + DELETE (Django user only for now) #}
               {% if request.user.is_authenticated and c.user_id == request.user.id %}
                 <button type="button"
                         class="comment-edit-btn"
@@ -61,27 +60,6 @@
                     Delete
                   </button>
                 </form>
-
-              {% elif not c.user_id and request.session.user_email %}
-                {% if c.author_name == request.session.user_name
-                      or c.author_name == request.session.author_name
-                      or c.author_name == request.session.user_email %}
-                  <button type="button"
-                          class="comment-edit-btn"
-                          data-content="{{ c.content|escapejs }}"
-                          data-update-url="{% url 'comment_update' id=project.id comment_id=c.id %}">
-                    Edit
-                  </button>
-
-                  <form method="post"
-                        action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
-                        class="comment-delete-form">
-                    {% csrf_token %}
-                    <button type="submit" class="comment-delete-btn">
-                      Delete
-                    </button>
-                  </form>
-                {% endif %}
               {% endif %}
             </div>
           </header>
