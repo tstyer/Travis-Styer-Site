@@ -64,26 +64,29 @@
                 </form>
 
               {% elif not c.user_id and request.session.user_email %}
-                {# Sheet/session-based owner #}
-                {% if c.author_name == request.session.user_name
-                      or c.author_name == request.session.author_name
-                      or c.author_name == request.session.user_email %}
-                  <button type="button"
-                          class="comment-edit-btn"
-                          data-update-url="{% url 'comment_update' id=project.id comment_id=c.id %}"
-                          data-content="{{ c.content|escapejs }}">
-                    Edit
-                  </button>
-
-                  <form method="post"
-                        action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
-                        class="comment-delete-form">
-                    {% csrf_token %}
-                    <button type="submit" class="comment-delete-btn">
-                      Delete
+                {% with session_name=request.session.user_name
+                        session_author=request.session.author_name
+                        session_email=request.session.user_email %}
+                  {% if c.author_name == session_name
+                        or c.author_name == session_author
+                        or c.author_name == session_email %}
+                    <button type="button"
+                            class="comment-edit-btn"
+                            data-update-url="{% url 'comment_update' id=project.id comment_id=c.id %}"
+                            data-content="{{ c.content|escapejs }}">
+                      Edit
                     </button>
-                  </form>
-                {% endif %}
+
+                    <form method="post"
+                          action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
+                          class="comment-delete-form">
+                      {% csrf_token %}
+                      <button type="submit" class="comment-delete-btn">
+                        Delete
+                      </button>
+                    </form>
+                  {% endif %}
+                {% endwith %}
               {% endif %}
             </div>
           </header>
