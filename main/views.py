@@ -246,14 +246,62 @@ def comment_create(request, id):
 
 @require_POST
 def comment_delete(request, id, comment_id):
-    ...
+    """
+    Delete a comment.
+
+    - Django users: can delete comments where comment.user == request.user
+    - Sheet/session users: can delete comments where author_name matches their session
+    - AJAX: return updated partial; normal POST: redirect back to project
+    """
+    project_obj = get_object_or_404(Project, pk=id)
+    is_ajax = request.headers.get("x-requested-with") == "XMLHttpRequest"
+
+    is_django_user = request.user.is_authenticated
+    sheet_email = request.session.get("user_email")
+    sheet_name = request.session.get("user_name")
+    session_author = request.session.get("author_name")
+    has_sheet_identity = bool(sheet_email or sheet_name or session_author)
+
+    # 1) Work out which comment we’re allowed to delete
+    if is_django_user:
+        # Only comments owned by this Django user
+        comment = get_object_or_404(
+            Comment,
+            pk=comment_id,
+            project=project_obj,
+            user=request.user,
+        )
+    elif has_sheet_identity:
+        # Only sheet-based comments with matching author_name
+        comment = get_object_or_404(
+            Comment,
+            pk=comment_id,
+            project=project_obj,
+            user__isnull=True,
+        )
+        identities = {v for v in [sheet_name, session_author, sheet_email] if v}
+        if comment.author_name not in identities:
+            if is_ajax:
+                return HttpResponseForbidden("Not allowed.")
+            messages.error(request, "You cannot delete this comment.")
+            return redirect(reverse("project", kwargs={"id": project_obj.pk}))
+    else:
+        # Not logged in in any way
+        if is_ajax:
+            return HttpResponseForbidden("Not allowed.")
+        messages.error(request, "You must be signed in to delete comments.")
+        return redirect(reverse("project", kwargs={"id": project_obj.pk}))
+
+    # 2) Delete it
     comment.delete()
 
-    # Only queue Django messages for NON-AJAX requests
+    # Only enqueue Django messages for NON-AJAX requests
     if not is_ajax:
         messages.success(request, "Comment deleted.")
 
+    # 3) Response
     if is_ajax:
+        # Re-render updated comments list into the modal
         comments = project_obj.comments.select_related("user").order_by("-created_at")
         can_comment = is_django_user or has_sheet_identity
         form = CommentForm() if can_comment else None
@@ -268,6 +316,7 @@ def comment_delete(request, id, comment_id):
             },
         )
 
+    # Fallback: normal POST from project page
     return redirect(reverse("project", kwargs={"id": project_obj.pk}))
 
 
