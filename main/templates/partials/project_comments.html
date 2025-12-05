@@ -1,9 +1,11 @@
+{# templates/partials/project_comments.html #}
+
 <div class="comments-panel">
   <header class="comments-panel__header">
     <h2>Comments for {{ project.title }}</h2>
   </header>
 
-  {# COMMENT FORM (create / update – JS will change action when editing) #}
+  {# ----- CREATE / UPDATE FORM (top) ----- #}
   {% if form %}
     <form method="post"
           action="{% url 'comment_create' id=project.id %}"
@@ -28,7 +30,7 @@
     </p>
   {% endif %}
 
-  {# SCROLLABLE COMMENTS LIST #}
+  {# ----- SCROLLABLE LIST OF COMMENTS ----- #}
   <div class="comments-scroll">
     {% if comments %}
       {% for c in comments %}
@@ -44,7 +46,8 @@
                 {{ c.created_at|date:"Y-m-d H:i" }}
               </time>
 
-              {# ---- OWNER ACTIONS: EDIT + DELETE ---- #}
+              {# -------- OWNER ACTIONS: EDIT + DELETE -------- #}
+
               {# 1) Django-auth owner #}
               {% if request.user.is_authenticated and c.user_id == request.user.id %}
                 <button type="button"
