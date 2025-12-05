@@ -533,20 +533,36 @@ ul svg {
   margin: 0;
 }
 
+/* Delete button for reference */
 .comment-delete-btn {
-  border: none;
   background: transparent;
-  color: #e57373;
-  font-size: 0.75rem;
+  border: none;
+  color: #e11d48;          /* red tone */
+  font-size: 14px;
   cursor: pointer;
-  padding: 0.1rem 0.4rem;
-  border-radius: 999px;
-  transition: background 0.15s ease, color 0.15s ease;
+  padding: 0;
+  transition: color 0.2s ease;
 }
 
 .comment-delete-btn:hover {
-  background: rgba(229, 115, 115, 0.12);
-  color: #c62828;
+  color: #be123c;          /* darker red hover */
+  text-decoration: underline;
+}
+
+.comment-edit-btn {
+  background: transparent;
+  border: none;
+  color: #3b82f6;          /* blue tone */
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 8px;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.comment-edit-btn:hover {
+  color: #1d4ed8;          /* darker blue hover */
+  text-decoration: underline;
 }
 
 
