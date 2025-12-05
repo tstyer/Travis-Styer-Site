@@ -110,7 +110,7 @@
     <section class="comments mt-5">
       <h2 class="mb-3">Comments</h2>
 
-      <!-- Create comment -->
+      {# CREATE NEW COMMENT (simple non-AJAX form) #}
       {% if form %}
         <form method="post" action="{% url 'comment_create' id=project.id %}" class="comment-form mb-4">
           {% csrf_token %}
@@ -124,7 +124,6 @@
       {% else %}
         <p class="text-muted mb-4">
           Sign in to leave a comment.
-          <!-- If you have a modal on this page, you could trigger it; otherwise link to home where your modal exists -->
           <a href="{% url 'home' %}">Go to Home</a>
         </p>
       {% endif %}
@@ -144,17 +143,78 @@
 
             <p class="comment-content mb-3">{{ c.content }}</p>
 
-            <!-- Delete button: staff OR owning user -->
+            {# ---------- OWNER CONTROLS ON PROJECT PAGE ---------- #}
+            {# 1) Staff: can always delete #}
             {% if user.is_staff %}
-              <form method="post" action="{% url 'comment_delete' id=project.id comment_id=c.id %}" class="d-inline">
+              <form method="post"
+                    action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
+                    class="d-inline">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this comment?');">Delete</button>
+                <button type="submit"
+                        class="btn btn-sm btn-outline-danger"
+                        onclick="return confirm('Delete this comment?');">
+                  Delete
+                </button>
               </form>
+
+            {# 2) Django-auth owner #}
             {% elif user.is_authenticated and c.user_id == user.id %}
-              <form method="post" action="{% url 'comment_delete' id=project.id comment_id=c.id %}" class="d-inline">
+              <!-- Inline edit form -->
+              <form method="post"
+                    action="{% url 'comment_update' id=project.id comment_id=c.id %}"
+                    class="mb-2">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this comment?');">Delete</button>
+                <textarea name="content"
+                          rows="2"
+                          class="form-control mb-2">{{ c.content }}</textarea>
+                <button type="submit" class="btn btn-sm btn-outline-primary">
+                  Save changes
+                </button>
               </form>
+
+              <!-- Delete -->
+              <form method="post"
+                    action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
+                    class="d-inline">
+                {% csrf_token %}
+                <button type="submit"
+                        class="btn btn-sm btn-outline-danger"
+                        onclick="return confirm('Delete this comment?');">
+                  Delete
+                </button>
+              </form>
+
+            {# 3) Sheet/session owner (no Django user FK) #}
+            {% elif not c.user_id and request.session.user_email %}
+              {% if c.author_name == request.session.user_name
+                    or c.author_name == request.session.author_name
+                    or c.author_name == request.session.user_email %}
+
+                <!-- Inline edit form -->
+                <form method="post"
+                      action="{% url 'comment_update' id=project.id comment_id=c.id %}"
+                      class="mb-2">
+                  {% csrf_token %}
+                  <textarea name="content"
+                            rows="2"
+                            class="form-control mb-2">{{ c.content }}</textarea>
+                  <button type="submit" class="btn btn-sm btn-outline-primary">
+                    Save changes
+                  </button>
+                </form>
+
+                <!-- Delete -->
+                <form method="post"
+                      action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
+                      class="d-inline">
+                  {% csrf_token %}
+                  <button type="submit"
+                          class="btn btn-sm btn-outline-danger"
+                          onclick="return confirm('Delete this comment?');">
+                    Delete
+                  </button>
+                </form>
+              {% endif %}
             {% endif %}
           </li>
         {% empty %}
@@ -162,6 +222,7 @@
         {% endfor %}
       </ul>
     </section>
+
   </main>
     
   <footer>
