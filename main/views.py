@@ -466,6 +466,8 @@ def auth_login(request):
         request.session["user_name"] = username
 
         if is_ajax:
+            # Ensure a normal page reload shows a success banner for AJAX logins
+            messages.success(request, f"Signed in as {username}.")
             return JsonResponse({"success": True, "username": username})
 
         # Normal HTML login
