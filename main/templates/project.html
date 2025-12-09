@@ -1,253 +1,318 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ project.title }} • Project</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ project.title }} • Project</title>
 
-  <!--font awesome self-hosted -->
-  <link rel="stylesheet" href="{% static 'vendor/fontawesome/css/all.min.css' %}" crossorigin>
+    <!--font awesome self-hosted -->
+    <link
+      rel="stylesheet"
+      href="{% static 'vendor/fontawesome/css/all.min.css' %}"
+      crossorigin
+    />
 
-  <!-- Bootstrap (self-hosted) -->
-  <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!-- Bootstrap (self-hosted) -->
+    <link
+      rel="stylesheet"
+      href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"
+    />
 
-  <!-- My CSS -->
-  <link rel="stylesheet" href="{% static 'css/home.css' %}">
-  <link rel="stylesheet" href="{% static 'css/project.css' %}">
-  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <!-- My CSS -->
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/project.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
 
-  <!-- Favicon (optional) -->
-  <link rel="icon" type="image/png" href="{% static 'images/new_icon.png' %}">
-</head>
+    <!-- Favicon (optional) -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="{% static 'images/new_icon.png' %}"
+    />
+  </head>
 
-<body class="wrapper">
-  <header class="container py-3">
-  <!-- NavBar -->
-    <nav class="site-nav">
-      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+  <body class="wrapper">
+    <header class="container py-3">
+      <!-- NavBar -->
+      <nav class="site-nav">
+        <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
 
-      <ul class="nav justify-content-center nav-menu">
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'home' %}">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'contact' %}">Contact</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'about' %}">About Me</a>
-        </li>
-      </ul>
+        <ul class="nav justify-content-center nav-menu">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'about' %}">About Me</a>
+          </li>
+        </ul>
 
-      <div class="auth-container">
-        {% if request.user.is_authenticated or request.session.user_email %}
+        <div class="auth-container">
+          {% if request.user.is_authenticated or request.session.user_email %}
           <form method="post" action="{% url 'auth_logout' %}">
             {% csrf_token %}
-            <input type="hidden" name="next" value="{{ request.path }}">
-            <button type="submit" class="auth-btn nav-auth-btn">Sign out</button>
+            <input type="hidden" name="next" value="{{ request.path }}" />
+            <button type="submit" class="auth-btn nav-auth-btn">
+              Sign out
+            </button>
           </form>
-        {% else %}
-          <button type="button" class="auth-btn nav-auth-btn" id="open-auth-modal">
+          {% else %}
+          <button
+            type="button"
+            class="auth-btn nav-auth-btn"
+            id="open-auth-modal"
+          >
             Sign in / Register
           </button>
-        {% endif %}
-      </div>
-    </nav>
+          {% endif %}
+        </div>
+      </nav>
+    </header>
 
-  </header>
-
-
-  <!-- Flash messages -->
-  {% if messages %}
+    <!-- Flash messages -->
+    {% if messages %}
     <div class="container">
       <ul class="messages list-unstyled mb-4">
         {% for message in messages %}
-          <li class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
-            {{ message }}
-          </li>
+        <li
+          class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}"
+          role="alert"
+        >
+          {{ message }}
+        </li>
         {% endfor %}
       </ul>
     </div>
-  {% endif %}
+    {% endif %}
 
-  <main class="container">
-    <!-- Project card -->
-    <article class="project-card row g-4 align-items-start">
-      <!-- Project info -->
-      <div class="project-info col-12 col-lg-6">
-        <h1 class="mb-3">{{ project.title }}</h1>
+    <main class="container">
+      <!-- Project card -->
+      <article class="project-card row g-4 align-items-start">
+        <!-- Project info -->
+        <div class="project-info col-12 col-lg-6">
+          <h1 class="mb-3">{{ project.title }}</h1>
 
-        {% if project.link %}
+          {% if project.link %}
           <p class="mb-2">
-            <a href="{{ project.link }}" target="_blank" rel="noopener">Project Link</a>
+            <a href="{{ project.link }}" target="_blank" rel="noopener"
+              >Project Link</a
+            >
           </p>
-        {% endif %}
+          {% endif %}
 
-        <p class="mb-4">{{ project.description }}</p>
+          <p class="mb-4">{{ project.description }}</p>
 
-        <p class="mb-4">
-          <a href="{% url 'home' %}" class="btn btn-outline-secondary">← Back to Home</a>
-        </p>
-      </div>
-
-      <!-- Simple image carousel (placeholder images) -->
-      <div class="carousel col-12 col-lg-6">
-        <div class="carousel-images d-flex gap-3 overflow-auto">
-          <!-- screenshots coming soon -->
+          <p class="mb-4">
+            <a href="{% url 'home' %}" class="btn btn-outline-secondary"
+              >← Back to Home</a
+            >
+          </p>
         </div>
-        <div class="d-flex gap-2 mt-2">
-          <button class="carousel-control prev btn btn-sm btn-outline-primary" type="button" onclick="moveSlide(-1)" aria-label="Previous image">
-            &#10094;
-          </button>
-          <button class="carousel-control next btn btn-sm btn-outline-primary" type="button" onclick="moveSlide(1)" aria-label="Next image">
-            &#10095;
-          </button>
+
+        <!-- Simple image carousel (placeholder images) -->
+        <div class="carousel col-12 col-lg-6">
+          <div class="carousel-images d-flex gap-3 overflow-auto">
+            <!-- screenshots coming soon -->
+          </div>
+          <div class="d-flex gap-2 mt-2">
+            <button
+              class="carousel-control prev btn btn-sm btn-outline-primary"
+              type="button"
+              onclick="moveSlide(-1)"
+              aria-label="Previous image"
+            >
+              &#10094;
+            </button>
+            <button
+              class="carousel-control next btn btn-sm btn-outline-primary"
+              type="button"
+              onclick="moveSlide(1)"
+              aria-label="Next image"
+            >
+              &#10095;
+            </button>
+          </div>
         </div>
-      </div>
-    </article>
+      </article>
 
-    <!-- COMMENTS -->
-    <section class="comments mt-5">
-      <h2 class="mb-3">Comments</h2>
+      <!-- COMMENTS -->
+      <section class="comments mt-5">
+        <h2 class="mb-3">Comments</h2>
 
-      {# CREATE NEW COMMENT (simple non-AJAX form) #}
-      {% if form %}
-        <form method="post" action="{% url 'comment_create' id=project.id %}" class="comment-form mb-4">
-          {% csrf_token %}
-          {{ form.non_field_errors }}
+        {# CREATE NEW COMMENT (simple non-AJAX form) #} {% if form %}
+        <form
+          method="post"
+          action="{% url 'comment_create' id=project.id %}"
+          class="comment-form mb-4"
+        >
+          {% csrf_token %} {{ form.non_field_errors }}
           <div class="form-group mb-3">
-            {{ form.content.errors }}
-            {{ form.content }}
+            {{ form.content.errors }} {{ form.content }}
           </div>
           <button type="submit" class="btn btn-primary">Post Comment</button>
         </form>
-      {% else %}
+        {% else %}
         <p class="text-muted mb-4">
           Sign in to leave a comment.
           <a href="{% url 'home' %}">Go to Home</a>
         </p>
-      {% endif %}
+        {% endif %}
 
-      <!-- List comments -->
-      <ul class="comment-list list-unstyled">
-        {% for c in comments %}
+        <!-- List comments -->
+        <ul class="comment-list list-unstyled">
+          {% for c in comments %}
           <li class="comment-item border rounded p-3 mb-3">
-            <div class="comment-header d-flex justify-content-between align-items-center mb-2">
+            <div
+              class="comment-header d-flex justify-content-between align-items-center mb-2"
+            >
               <strong>
                 {{ c.user.username|default:c.author_name|default:"Anon" }}
               </strong>
-              <time class="comment-date text-muted" datetime="{{ c.created_at|date:'c' }}">
+              <time
+                class="comment-date text-muted"
+                datetime="{{ c.created_at|date:'c' }}"
+              >
                 {{ c.created_at|date:"Y-m-d H:i" }}
               </time>
             </div>
 
             <p class="comment-content mb-3">{{ c.content }}</p>
 
-            {# ---------- OWNER CONTROLS ON PROJECT PAGE ---------- #}
-            {# 1) Staff: can always delete #}
-            {% if user.is_staff %}
-              <form method="post"
-                    action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
-                    class="d-inline">
-                {% csrf_token %}
-                <button type="submit"
-                        class="btn btn-sm btn-outline-danger"
-                        onclick="return confirm('Delete this comment?');">
-                  Delete
-                </button>
-              </form>
+            {# ---------- OWNER CONTROLS ON PROJECT PAGE (balanced tags)
+            ---------- #} {% if user.is_staff %}
+            <form
+              method="post"
+              action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
+              class="d-inline"
+            >
+              {% csrf_token %}
+              <button
+                type="submit"
+                class="btn btn-sm btn-outline-danger"
+                onclick="return confirm('Delete this comment?');"
+              >
+                Delete
+              </button>
+            </form>
+            {% else %} {% if user.is_authenticated and c.user_id == user.id %}
+            <form
+              method="post"
+              action="{% url 'comment_update' id=project.id comment_id=c.id %}"
+              class="mb-2"
+            >
+              {% csrf_token %}
+              <textarea name="content" rows="2" class="form-control mb-2">
+{{ c.content }}</textarea
+              >
+              <button type="submit" class="btn btn-sm btn-outline-primary">
+                Save changes
+              </button>
+            </form>
 
-            {# 2) Django-auth owner #}
-            {% elif user.is_authenticated and c.user_id == user.id %}
-              <!-- Inline edit form -->
-              <form method="post"
-                    action="{% url 'comment_update' id=project.id comment_id=c.id %}"
-                    class="mb-2">
-                {% csrf_token %}
-                <textarea name="content"
-                          rows="2"
-                          class="form-control mb-2">{{ c.content }}</textarea>
-                <button type="submit" class="btn btn-sm btn-outline-primary">
-                  Save changes
-                </button>
-              </form>
+            <form
+              method="post"
+              action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
+              class="d-inline"
+            >
+              {% csrf_token %}
+              <button
+                type="submit"
+                class="btn btn-sm btn-outline-danger"
+                onclick="return confirm('Delete this comment?');"
+              >
+                Delete
+              </button>
+            </form>
 
-              <!-- Delete -->
-              <form method="post"
-                    action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
-                    class="d-inline">
-                {% csrf_token %}
-                <button type="submit"
-                        class="btn btn-sm btn-outline-danger"
-                        onclick="return confirm('Delete this comment?');">
-                  Delete
-                </button>
-              </form>
+            {% elif not c.user_id and request.session.user_email %} {% if
+            c.author_name == request.session.user_name or c.author_name ==
+            request.session.author_name or c.author_name ==
+            request.session.user_email %}
+            <form
+              method="post"
+              action="{% url 'comment_update' id=project.id comment_id=c.id %}"
+              class="mb-2"
+            >
+              {% csrf_token %}
+              <textarea name="content" rows="2" class="form-control mb-2">
+{{ c.content }}</textarea
+              >
+              <button type="submit" class="btn btn-sm btn-outline-primary">
+                Save changes
+              </button>
+            </form>
 
-            {# 3) Sheet/session owner (no Django user FK) #}
-            {% elif not c.user_id and request.session.user_email %}
-              {% if c.author_name == request.session.user_name
-                    or c.author_name == request.session.author_name
-                    or c.author_name == request.session.user_email %}
-
-                <!-- Inline edit form -->
-                <form method="post"
-                      action="{% url 'comment_update' id=project.id comment_id=c.id %}"
-                      class="mb-2">
-                  {% csrf_token %}
-                  <textarea name="content"
-                            rows="2"
-                            class="form-control mb-2">{{ c.content }}</textarea>
-                  <button type="submit" class="btn btn-sm btn-outline-primary">
-                    Save changes
-                  </button>
-                </form>
-
-                <!-- Delete -->
-                <form method="post"
-                      action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
-                      class="d-inline">
-                  {% csrf_token %}
-                  <button type="submit"
-                          class="btn btn-sm btn-outline-danger"
-                          onclick="return confirm('Delete this comment?');">
-                    Delete
-                  </button>
-                </form>
-              {% endif %}
-            {% endif %}
+            <form
+              method="post"
+              action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
+              class="d-inline"
+            >
+              {% csrf_token %}
+              <button
+                type="submit"
+                class="btn btn-sm btn-outline-danger"
+                onclick="return confirm('Delete this comment?');"
+              >
+                Delete
+              </button>
+            </form>
+            {% endif %} {% endif %} {% endif %}
           </li>
-        {% empty %}
+          {% empty %}
           <li class="text-muted">No comments yet. Be the first!</li>
-        {% endfor %}
+          {% endfor %}
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <ul class="icons">
+        <li>
+          <a
+            href="https://www.github.com"
+            target="_blank"
+            rel="noopener"
+            aria-label="GitHub"
+          >
+            <svg
+              class="social"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 640 640"
+            >
+              <path
+                d="M237.9 461.4C237.9 463.4 235.6 465 232.7 465C229.4 465.3 227.1 463.7 227.1 461.4C227.1 459.4 229.4 457.8 232.3 457.8C235.3 457.5 237.9 459.1 237.9 461.4zM206.8 456.9C206.1 458.9 208.1 461.2 211.1 461.8C213.7 462.8 216.7 461.8 217.3 459.8C217.9 457.8 216 455.5 213 454.6C210.4 453.9 207.5 454.9 206.8 456.9zM251 455.2C248.1 455.9 246.1 457.8 246.4 460.1C246.7 462.1 249.3 463.4 252.3 462.7C255.2 462 257.2 460.1 256.9 458.1C256.6 456.2 253.9 454.9 251 455.2zM316.8 72C178.1 72 72 177.3 72 316C72 426.9 141.8 521.8 241.5 555.2C254.3 557.5 258.8 549.6 258.8 543.1C258.8 536.9 258.5 502.7 258.5 481.7C258.5 481.7 188.5 496.7 173.8 451.9C173.8 451.9 162.4 422.8 146 415.3C146 415.3 123.1 399.6 147.6 399.9C147.6 399.9 172.5 401.9 186.2 425.7C208.1 464.3 244.8 453.2 259.1 446.6C261.4 430.6 267.9 419.5 275.1 412.9C219.2 406.7 162.8 398.6 162.8 302.4C162.8 274.9 170.4 261.1 186.4 243.5C183.8 237 175.3 210.2 189 175.6C209.9 169.1 258 202.6 258 202.6C278 197 299.5 194.1 320.8 194.1C342.1 194.1 363.6 197 383.6 202.6C383.6 202.6 431.7 169 452.6 175.6C466.3 210.3 457.8 237 455.2 243.5C471.2 261.2 481 275 481 302.4C481 398.9 422.1 406.6 366.2 412.9C375.4 420.8 383.2 435.8 383.2 459.3C383.2 493 382.9 534.7 382.9 542.9C382.9 549.4 387.5 557.3 400.2 555C500.2 521.8 568 426.9 568 316C568 177.3 455.5 72 316.8 72zM169.2 416.9C167.9 417.9 168.2 420.2 169.9 422.1C171.5 423.7 173.8 424.4 175.1 423.1C176.4 422.1 176.1 419.8 174.4 417.9C172.8 416.3 170.5 415.6 169.2 416.9zM158.4 408.8C157.7 410.1 158.7 411.7 160.7 412.7C162.3 413.7 164.3 413.4 165 412C165.7 410.7 164.7 409.1 162.7 408.1C160.7 407.5 159.1 407.8 158.4 408.8zM190.8 444.4C189.2 445.7 189.8 448.7 192.1 450.6C194.4 452.9 197.3 453.2 198.6 451.6C199.9 450.3 199.3 447.3 197.3 445.4C195.1 443.1 192.1 442.8 190.8 444.4zM179.4 429.7C177.8 430.7 177.8 433.3 179.4 435.6C181 437.9 183.7 438.9 185 437.9C186.6 436.6 186.6 434 185 431.7C183.6 429.4 181 428.4 179.4 429.7z"
+              />
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://www.linkedin.com"
+            target="_blank"
+            rel="noopener"
+            aria-label="LinkedIn"
+          >
+            <svg
+              class="social"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 448 512"
+            >
+              <path
+                d="M416 32L31.9 32C14.3 32 0 46.5 0 64.3L0 447.7C0 465.5 14.3 480 31.9 480L416 480c17.6 0 32-14.5 32-32.3l0-383.4C448 46.5 433.6 32 416 32zM135.4 416l-66.4 0 0-213.8 66.5 0 0 213.8-.1 0zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77zM384.3 416l-66.4 0 0-104c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9l0 105.8-66.4 0 0-213.8 63.7 0 0 29.2 .9 0c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9l0 117.2z"
+              />
+            </svg>
+          </a>
+        </li>
       </ul>
-    </section>
+      <p class="copyright">&copy; Travis Styer</p>
+    </footer>
 
-  </main>
-    
-  <footer>
-    <ul class="icons">
-      <li>
-        <a href="https://www.github.com" target="_blank" rel="noopener" aria-label="GitHub">
-          <svg class="social" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-            <path d="M237.9 461.4C237.9 463.4 235.6 465 232.7 465C229.4 465.3 227.1 463.7 227.1 461.4C227.1 459.4 229.4 457.8 232.3 457.8C235.3 457.5 237.9 459.1 237.9 461.4zM206.8 456.9C206.1 458.9 208.1 461.2 211.1 461.8C213.7 462.8 216.7 461.8 217.3 459.8C217.9 457.8 216 455.5 213 454.6C210.4 453.9 207.5 454.9 206.8 456.9zM251 455.2C248.1 455.9 246.1 457.8 246.4 460.1C246.7 462.1 249.3 463.4 252.3 462.7C255.2 462 257.2 460.1 256.9 458.1C256.6 456.2 253.9 454.9 251 455.2zM316.8 72C178.1 72 72 177.3 72 316C72 426.9 141.8 521.8 241.5 555.2C254.3 557.5 258.8 549.6 258.8 543.1C258.8 536.9 258.5 502.7 258.5 481.7C258.5 481.7 188.5 496.7 173.8 451.9C173.8 451.9 162.4 422.8 146 415.3C146 415.3 123.1 399.6 147.6 399.9C147.6 399.9 172.5 401.9 186.2 425.7C208.1 464.3 244.8 453.2 259.1 446.6C261.4 430.6 267.9 419.5 275.1 412.9C219.2 406.7 162.8 398.6 162.8 302.4C162.8 274.9 170.4 261.1 186.4 243.5C183.8 237 175.3 210.2 189 175.6C209.9 169.1 258 202.6 258 202.6C278 197 299.5 194.1 320.8 194.1C342.1 194.1 363.6 197 383.6 202.6C383.6 202.6 431.7 169 452.6 175.6C466.3 210.3 457.8 237 455.2 243.5C471.2 261.2 481 275 481 302.4C481 398.9 422.1 406.6 366.2 412.9C375.4 420.8 383.2 435.8 383.2 459.3C383.2 493 382.9 534.7 382.9 542.9C382.9 549.4 387.5 557.3 400.2 555C500.2 521.8 568 426.9 568 316C568 177.3 455.5 72 316.8 72zM169.2 416.9C167.9 417.9 168.2 420.2 169.9 422.1C171.5 423.7 173.8 424.4 175.1 423.1C176.4 422.1 176.1 419.8 174.4 417.9C172.8 416.3 170.5 415.6 169.2 416.9zM158.4 408.8C157.7 410.1 158.7 411.7 160.7 412.7C162.3 413.7 164.3 413.4 165 412C165.7 410.7 164.7 409.1 162.7 408.1C160.7 407.5 159.1 407.8 158.4 408.8zM190.8 444.4C189.2 445.7 189.8 448.7 192.1 450.6C194.4 452.9 197.3 453.2 198.6 451.6C199.9 450.3 199.3 447.3 197.3 445.4C195.1 443.1 192.1 442.8 190.8 444.4zM179.4 429.7C177.8 430.7 177.8 433.3 179.4 435.6C181 437.9 183.7 438.9 185 437.9C186.6 436.6 186.6 434 185 431.7C183.6 429.4 181 428.4 179.4 429.7z" />
-          </svg>
-        </a>
-      </li>
-      <li>
-        <a href="https://www.linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">
-          <svg class="social" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-            <path d="M416 32L31.9 32C14.3 32 0 46.5 0 64.3L0 447.7C0 465.5 14.3 480 31.9 480L416 480c17.6 0 32-14.5 32-32.3l0-383.4C448 46.5 433.6 32 416 32zM135.4 416l-66.4 0 0-213.8 66.5 0 0 213.8-.1 0zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77zM384.3 416l-66.4 0 0-104c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9l0 105.8-66.4 0 0-213.8 63.7 0 0 29.2 .9 0c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9l0 117.2z" />
-          </svg>
-        </a>
-      </li>
-    </ul>
-    <p class="copyright">&copy; Travis Styer</p>
-  </footer>
-
-  <!-- Scripts -->
-  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-  <!-- Adjust this path to match static structure -->
-  <script src="{% static 'javascript/project.js' %}" defer></script>
-</body>
+    <!-- Scripts -->
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Adjust this path to match static structure -->
+    <script src="{% static 'javascript/project.js' %}" defer></script>
+  </body>
 </html>
