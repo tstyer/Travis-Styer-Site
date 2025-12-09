@@ -1,21 +1,21 @@
-from django.contrib.auth.hashers import make_password, check_password
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
-from django.urls import reverse
-from django.views.decorators.http import require_POST
-from django.http import JsonResponse, HttpResponseForbidden
+import gspread
 from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth import logout as django_logout
+from django.contrib.auth.hashers import check_password, make_password
+from django.http import HttpResponseForbidden, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth import logout as django_logout
-import gspread
+from django.views.decorators.http import require_POST
 
-from .models import Project, Tag, Comment
 from .forms import CommentForm, ContactForm
+from .models import Comment, Project, Tag
 
 # Google Sheet header constants
 USER_SHEET_HEADERS = ["User Name", "Email", "Date Joined", "Password (Now Hashed)"]
-PASSWORD_HEADER = "Password (Now Hashed)"   # must match sheet header
+PASSWORD_HEADER = "Password (Now Hashed)"  # must match sheet header
 
 
 # --------------------

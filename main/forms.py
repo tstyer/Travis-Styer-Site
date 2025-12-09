@@ -1,15 +1,17 @@
 from django import forms
+
 from .models import Comment
+
 
 # This will create the comment form for registered users
 class CommentForm(forms.ModelForm):
     content = forms.CharField(
         label="",
-        widget=forms.Textarea(attrs={
-            "rows": 3,
-            "placeholder": "Give me suggestions or leave feedback!"
-        }),
+        widget=forms.Textarea(
+            attrs={"rows": 3, "placeholder": "Give me suggestions or leave feedback!"}
+        ),
     )
+
     class Meta:
         model = Comment
         fields = ["content"]
@@ -20,22 +22,22 @@ class ContactForm(forms.Form):
         max_length=100,
         required=True,
         label="Name",
-        widget=forms.TextInput(attrs={"placeholder": "Your name"})
+        widget=forms.TextInput(attrs={"placeholder": "Your name"}),
     )
     email = forms.EmailField(
         required=True,
         label="Email",
-        widget=forms.EmailInput(attrs={"placeholder": "Your email"})
+        widget=forms.EmailInput(attrs={"placeholder": "Your email"}),
     )
     subject = forms.CharField(
         required=True,
         label="Subject",
-        widget=forms.TextInput(attrs={"placeholder": ""})
+        widget=forms.TextInput(attrs={"placeholder": ""}),
     )
     message = forms.CharField(
         required=True,
         label="Message",
-        widget=forms.Textarea(attrs={"placeholder": "Ask me anything!"})
+        widget=forms.Textarea(attrs={"placeholder": "Ask me anything!"}),
     )
 
     # extra custom validation example

@@ -1,14 +1,15 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase, override_settings
 from django.urls import reverse
-from django.contrib.auth import get_user_model
 
-from .models import Project, Comment
+from .models import Comment, Project
 
 # Create your tests here.
 
 
 @override_settings(
-    STATICFILES_STORAGE="django.contrib.staticfiles.storage.StaticFilesStorage")
+    STATICFILES_STORAGE="django.contrib.staticfiles.storage.StaticFilesStorage"
+)
 class ViewTests(TestCase):  # Creating one test class for all.
     def setUp(self):
         self.User = get_user_model()
@@ -22,7 +23,7 @@ class ViewTests(TestCase):  # Creating one test class for all.
         Home page should return HTTP 200
         and include test project in the context.
         """
-        url = reverse("home")          # uses name="home" from main/urls.py
+        url = reverse("home")  # uses name="home" from main/urls.py
         response = self.client.get(url)
 
         # 1) page loads OK

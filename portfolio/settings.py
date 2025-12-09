@@ -2,11 +2,14 @@
 Django settings for portfolio project.
 """
 
+import json
+import os
 from pathlib import Path
-import json, os
+
 import dj_database_url
-if os.path.isfile('env.py'):
-    import env
+
+if os.path.isfile("env.py"):
+    pass
 
 # Paths
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -80,20 +83,32 @@ WSGI_APPLICATION = "portfolio.wsgi.application"
 
 
 # Database (sqlite local)
-#DATABASES = {
+# DATABASES = {
 #    "default": {
 #        "ENGINE": "django.db.backends.sqlite3",
 #        "NAME": BASE_DIR / "db.sqlite3",
 #    }
-#}
+# }
 
-DATABASES = {
-    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
-}
+DATABASE_URL = os.environ.get("DATABASE_URL")
+if DATABASE_URL:
+    DATABASES = {"default": dj_database_url.parse(DATABASE_URL)}
+else:
+    # Local dev fallback to sqlite so collectstatic and manage.py commands work
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {
+        "NAME": (
+            "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+        )
+    },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
@@ -111,9 +126,10 @@ STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [
     BASE_DIR / "main" / "static",
-    ]
+]
 
-# Use Manifest storage only when not DEBUG (prevents 500s in dev if collectstatic not run)
+# Use Manifest storage only when not DEBUG. This prevents 500s in dev
+# if `collectstatic` hasn't been run.
 if DEBUG:
     STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 else:
@@ -125,7 +141,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# Google 
+# Google
 GOOGLE_SERVICE_ACCOUNT_FILE = os.path.join(BASE_DIR, "creds.json")
 GOOGLE_SHEET_ID = "1NaIYrKXeWzqj9zHOwyd8vR0sTMlXG0mdmiDu-BNCSQU"
 

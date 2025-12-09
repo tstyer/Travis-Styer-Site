@@ -2,12 +2,13 @@ from django.apps import AppConfig
 
 
 class MainConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'main'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "main"
 
     def ready(self):
-        from django.db.models.signals import post_save
         from django.contrib.auth import get_user_model
+        from django.db.models.signals import post_save
+
         from .models import Profile
 
         User = get_user_model()
