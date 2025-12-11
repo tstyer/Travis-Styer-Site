@@ -861,3 +861,98 @@ main {
   }
 }
 
+/* --- Project Info Modal --- */
+
+.project-info-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+}
+
+.project-info-modal.active {
+  display: flex;
+}
+
+.project-info-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.project-info-modal__content {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  width: 100%;
+  border-radius: 18px;
+  padding: 1.75rem 2rem;
+  background: #ffffff;
+  box-shadow: 0 18px 40px rgba(22, 42, 65, 0.25);
+  animation: modal-slide-in 0.3s ease-out forwards;
+}
+
+@keyframes modal-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.project-info-modal__close {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.9rem;
+  border: none;
+  background: transparent;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.project-info-modal__close:hover {
+  color: #000;
+}
+
+#project-info-modal-body h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #283593;
+  margin-bottom: 0.75rem;
+}
+
+#project-info-modal-body p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+#project-info-github-link {
+  display: inline-block;
+  padding: 0.6rem 1.5rem;
+  background: linear-gradient(135deg, #6C63FF, #5B55E0);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#project-info-github-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(107, 99, 255, 0.3);
+}
+
+#project-info-github-link:active {
+  transform: translateY(0);
+}
+
