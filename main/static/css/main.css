@@ -851,12 +851,12 @@ main {
 
   .tag-line {
     max-width: 34rem;
-    margin: 0.25rem auto 0.6rem;
+    margin: 0.15rem auto 0.4rem;
   }
 
   .tag-line p {
-    font-size: 0.82rem;
-    line-height: 1.32;
+    font-size: 0.75rem;
+    line-height: 1.2;
     color: rgba(38, 42, 46, 0.75);
     margin: 0 auto;
     max-width: 48ch;
