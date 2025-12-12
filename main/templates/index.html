@@ -32,17 +32,11 @@ endblock %} {% block extra_css %}
 
   <!-- Projects -->
   <section class="projects-list">
-    {% for project in projects %} {# Build a safe comma-separated tag list for
-    the data-tags attribute #} {% with tags_csv="" %} {% for tag in
-    project.tags.all %} {% if forloop.first %} {% with
-    tags_csv=tag.name|lower|escape %} {% endwith %} {% else %} {% with
-    tags_csv=tags_csv|add:", "|add:tag.name|lower|escape %} {% endwith %} {%
-    endif %} {% endfor %}
-
+    {% for project in projects %}
     <div
       class="project-card"
       data-name="{{ project.title|lower|escape }}"
-      data-tags="{{ tags_csv }}"
+      data-tags="{% for tag in project.tags.all %}{{ tag.name|lower|escape }}{% if not forloop.last %},{% endif %}{% endfor %}"
       data-project-id="{{ project.id }}"
     >
       <h2>
@@ -63,7 +57,7 @@ endblock %} {% block extra_css %}
 
       <button class="comment-btn" type="button">Comments</button>
     </div>
-    {% endwith %} {% endfor %}
+    {% endfor %}
   </section>
 
   <p id="temp-p">
