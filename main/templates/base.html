@@ -46,24 +46,24 @@
       <ul class="nav justify-content-center nav-menu">
         <li class="nav-item">
           <a
-            class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
-            aria-current="{% if request.resolver_match.url_name == 'home' %}page{% endif %}"
+            class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'home' %}active{% endif %}"
+            aria-current="{% if request.resolver_match and request.resolver_match.url_name == 'home' %}page{% endif %}"
             href="{% url 'home' %}"
             >Home</a
           >
         </li>
         <li class="nav-item">
           <a
-            class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}"
-            aria-current="{% if request.resolver_match.url_name == 'contact' %}page{% endif %}"
+            class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'contact' %}active{% endif %}"
+            aria-current="{% if request.resolver_match and request.resolver_match.url_name == 'contact' %}page{% endif %}"
             href="{% url 'contact' %}"
             >Contact</a
           >
         </li>
         <li class="nav-item">
           <a
-            class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}"
-            aria-current="{% if request.resolver_match.url_name == 'about' %}page{% endif %}"
+            class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'about' %}active{% endif %}"
+            aria-current="{% if request.resolver_match and request.resolver_match.url_name == 'about' %}page{% endif %}"
             href="{% url 'about' %}"
             >About Me</a
           >

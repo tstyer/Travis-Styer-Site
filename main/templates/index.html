@@ -1,14 +1,8 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block title %}Travis Styer{% endblock %}
-
-{% block extra_css %}
+{% extends "base.html" %} {% load static %} {% block title %}Travis Styer{%
+endblock %} {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/home.css' %}" />
 <link rel="stylesheet" href="{% static 'css/project.css' %}" />
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 <!-- Header -->
 <header>
   <h2>FRONTEND DEVELOPER | WRITER</h2>
@@ -41,8 +35,8 @@
     {% for project in projects %}
     <div
       class="project-card"
-      data-name="{{ project.title|lower }}"
-      data-tags="{% for tag in project.tags.all %}{{ tag.name|lower }}{% if not forloop.last %}, {% endif %}{% endfor %}"
+      data-name="{{ project.title|lower|escape }}"
+      data-tags="{% for tag in project.tags.all %}{{ tag.name|lower|escape }}{% if not forloop.last %}, {% endif %}{% endfor %}"
       data-project-id="{{ project.id }}"
     >
       <h2>
@@ -87,13 +81,13 @@
     1: {
       title: "Destination Mars",
       description:
-        'A falling-platform JavaScript game featuring auto-jump mechanics and timers. Navigate your character to avoid obstacles and reach the destination. Built with vanilla JavaScript and tested thoroughly.',
+        "A falling-platform JavaScript game featuring auto-jump mechanics and timers. Navigate your character to avoid obstacles and reach the destination. Built with vanilla JavaScript and tested thoroughly.",
       github: "https://github.com/tstyer/Basic-Game-Destination-Mars",
     },
     2: {
       title: "Portfolio Website",
       description:
-        'This portfolio website! A Django-based project showcasing my web development work. Features include dynamic project filtering, a comments system, and a contact form. Built with Django, Bootstrap, and vanilla JavaScript.',
+        "This portfolio website! A Django-based project showcasing my web development work. Features include dynamic project filtering, a comments system, and a contact form. Built with Django, Bootstrap, and vanilla JavaScript.",
       github: "https://github.com/tstyer/portfolio-website",
     },
   };
