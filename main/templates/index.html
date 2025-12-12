@@ -3,13 +3,11 @@ endblock %} {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/home.css' %}" />
 <link rel="stylesheet" href="{% static 'css/project.css' %}" />
 {% endblock %} {% block content %}
-<!-- Header -->
 <header>
   <h2>FRONTEND DEVELOPER | WRITER</h2>
   <h1>Travis Styer</h1>
 </header>
 
-<!-- Tag line (now contains the site subheader) -->
 <div class="tag-line">
   <p>
     Welcome to my portfolio. Here, you can choose to view my work, leave
@@ -20,7 +18,6 @@ endblock %} {% block extra_css %}
 </div>
 
 <main>
-  <!-- Filters -->
   <section class="filters">
     <input type="text" id="name-search" placeholder="Search by project" />
     <div class="tags-list">
@@ -30,7 +27,6 @@ endblock %} {% block extra_css %}
     </div>
   </section>
 
-  <!-- Projects -->
   <section class="projects-list">
     {% for project in projects %}
     <div
@@ -65,7 +61,6 @@ endblock %} {% block extra_css %}
   </p>
 </main>
 {% endblock %} {% block extra_modals %}
-<!-- Project Info modal -->
 <div id="project-info-modal" class="project-info-modal">
   <div class="project-info-modal__backdrop"></div>
   <div class="project-info-modal__content">
@@ -79,7 +74,6 @@ endblock %} {% block extra_css %}
 </div>
 {% endblock %} {% block inline_scripts %}
 <script>
-  // Project info data - within the modal
   const projectsData = {
     1: {
       title: "Destination Mars",
@@ -95,7 +89,6 @@ endblock %} {% block extra_css %}
     },
   };
 
-  // Project Info Modal
   const projectInfoModal = document.getElementById("project-info-modal");
   const projectInfoBackdrop = document.querySelector(
     ".project-info-modal__backdrop"
