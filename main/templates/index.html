@@ -86,7 +86,8 @@
     <!-- Tag line (now contains the site subheader) -->
     <div class="tag-line">
       <p>
-        Welcome to my portfolio. Here, you can choose to view my work, leave comments and see the source code.
+        Welcome to my portfolio. Here, you can choose to view my work, leave
+        comments and see the source code.
         <br />
         To leave comments, simply create an account.
       </p>
@@ -105,43 +106,29 @@
 
       <!-- Projects -->
       <section class="projects-list">
+        {% for project in projects %}
         <div
           class="project-card"
-          data-name="Destination Mars"
-          data-tags="javascript, testing"
-          data-project-id="1"
+          data-name="{{ project.title|lower }}"
+          data-tags="{% for tag in project.tags.all %}{{ tag.name|lower }}{% if not forloop.last %}, {% endif %}{% endfor %}"
+          data-project-id="{{ project.id }}"
         >
           <h2>
             <a
               href="javascript:void(0)"
               class="project-info-link"
-              data-project-id="1"
-              >Destination Mars</a
+              data-project-id="{{ project.id }}"
+              >{{ project.title }}</a
             >
           </h2>
-          <p>Falling-platform JS game with auto-jump and timers.</p>
-          <p>Tags: JavaScript, Testing</p>
+          <p>{{ project.description }}</p>
+          <p>
+            Tags: {% for tag in project.tags.all %}{{ tag.name }}{% if not
+            forloop.last %}, {% endif %}{% endfor %}
+          </p>
           <button class="comment-btn" type="button">💬 Comments</button>
         </div>
-
-        <div
-          class="project-card"
-          data-name="portfolio website"
-          data-tags="django, javascript"
-          data-project-id="2"
-        >
-          <h2>
-            <a
-              href="javascript:void(0)"
-              class="project-info-link"
-              data-project-id="2"
-              >Portfolio Website</a
-            >
-          </h2>
-          <p>This site! Feel free to leave me some feedback on it :)</p>
-          <p>Tags: Django, JavaScript</p>
-          <button class="comment-btn" type="button">💬 Comments</button>
-        </div>
+        {% endfor %}
       </section>
 
       <p id="temp-p">
