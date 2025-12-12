@@ -47,8 +47,7 @@ endblock %} {% block extra_css %}
       <p>{{ project.description }}</p>
 
       <p>
-        Tags: {% for tag in project.tags.all %} {{ tag.name }}{% if not
-        forloop.last %}, {% endif %} {% endfor %}
+        Tags: {% for tag in project.tags.all %} {{ tag.name }}, {% endfor %}
       </p>
 
       <button class="comment-btn" type="button">Comments</button>
