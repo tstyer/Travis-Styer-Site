@@ -143,7 +143,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Google
 GOOGLE_SERVICE_ACCOUNT_FILE = os.path.join(BASE_DIR, "creds.json")
-GOOGLE_SHEET_ID = "1NaIYrKXeWzqj9zHOwyd8vR0sTMlXG0mdmiDu-BNCSQU"
+GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID", "")
 
 # Helpful logging to console (even if DEBUG=False)
 LOGGING = {
