@@ -35,10 +35,13 @@ wrapper contact-page
         class="contact-form"
         novalidate
       >
-        {% csrf_token %} {# Non-field (form-wide) errors #} {% if
-        form.non_field_errors %}
-        <div class="form-errors">{{ form.non_field_errors }}</div>
-        {% endif %}
+        {% csrf_token %}
+
+{# Non-field (form-wide) errors #}
+{% if form.non_field_errors %}
+  <div class="form-errors">{{ form.non_field_errors }}</div>
+{% endif %}
+
 
         <div class="form-row">
           <label for="{{ form.name.id_for_label }}">Name</label>
