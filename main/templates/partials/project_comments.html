@@ -1,7 +1,9 @@
-<div class="comments-panel">
+{% if show_comments_title %}
   <header class="comments-panel__header">
     <h2>Comments for {{ project.title }}</h2>
   </header>
+{% endif %}
+
 
   {# ---------- COMMENT FORM ---------- #}
   {% if form %}
