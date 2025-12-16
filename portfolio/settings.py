@@ -8,36 +8,46 @@ from pathlib import Path
 
 import dj_database_url
 
-# Load local env.py if present (local dev only)
+# Load local env.py if present (local development only)
 if os.path.isfile("env.py"):
     import env  # noqa: F401
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Google credentials
+# -------------------------------------------------------------------
+# Google credentials (service account)
+# -------------------------------------------------------------------
 GOOGLE_CREDS_DICT = None
 GOOGLE_SERVICE_ACCOUNT_FILE = None
 
 if os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON"):
     GOOGLE_CREDS_DICT = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"])
 else:
-    # Fallback for local dev with a file
+    # Fallback for local development
     GOOGLE_SERVICE_ACCOUNT_FILE = BASE_DIR / "creds.json"
 
+# -------------------------------------------------------------------
 # Security
-SECRET_KEY = os.environ.get("SECRET_KEY")
-if not SECRET_KEY:
-    SECRET_KEY = "dev-secret-key-change-me"
-    print(
-        "WARNING: Using fallback SECRET_KEY. "
-        "Set SECRET_KEY in the environment for production."
-    )
+# -------------------------------------------------------------------
+SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key-change-me")
 
-# DEBUG from env (1 = True)
-DEBUG = os.environ.get("DEBUG", "0") == "1"
+# DEBUG from env (supports common truthy values)
+DEBUG = os.getenv("DEBUG", "0").strip().lower() in ("1", "true", "yes", "on")
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "[::1]", ".herokuapp.com"]
+# Fail hard if production is misconfigured
+if not DEBUG and SECRET_KEY == "dev-secret-key-change-me":
+    raise ValueError("SECRET_KEY must be set in production.")
 
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "[::1]",
+    ".herokuapp.com",
+]
+
+# -------------------------------------------------------------------
+# Applications
+# -------------------------------------------------------------------
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -48,6 +58,9 @@ INSTALLED_APPS = [
     "main.apps.MainConfig",
 ]
 
+# -------------------------------------------------------------------
+# Middleware
+# -------------------------------------------------------------------
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -61,6 +74,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "portfolio.urls"
 
+# -------------------------------------------------------------------
+# Templates
+# -------------------------------------------------------------------
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -79,7 +95,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "portfolio.wsgi.application"
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
+# -------------------------------------------------------------------
+# Database
+# -------------------------------------------------------------------
+DATABASE_URL = os.getenv("DATABASE_URL")
+
 if DATABASE_URL:
     DATABASES = {"default": dj_database_url.parse(DATABASE_URL)}
 else:
@@ -90,22 +110,35 @@ else:
         }
     }
 
+# -------------------------------------------------------------------
+# Password validation
+# -------------------------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": (
-            "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
-        )
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
 ]
 
+# -------------------------------------------------------------------
+# Internationalisation
+# -------------------------------------------------------------------
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
+# -------------------------------------------------------------------
+# Static & media files
+# -------------------------------------------------------------------
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [
@@ -120,15 +153,27 @@ else:
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+# -------------------------------------------------------------------
+# Defaults
+# -------------------------------------------------------------------
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# -------------------------------------------------------------------
 # Google Sheet config
-GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID", "")
+# -------------------------------------------------------------------
+GOOGLE_SHEET_ID = os.getenv("GOOGLE_SHEET_ID", "")
 
-# Helpful logging to console (even if DEBUG=False)
+# -------------------------------------------------------------------
+# Logging (console-friendly even with DEBUG=False)
+# -------------------------------------------------------------------
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "handlers": {"console": {"class": "logging.StreamHandler"}},
-    "root": {"handlers": ["console"], "level": "INFO"},
+    "handlers": {
+        "console": {"class": "logging.StreamHandler"},
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+    },
 }
