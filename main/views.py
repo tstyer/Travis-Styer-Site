@@ -5,7 +5,8 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import logout as django_logout
 from django.contrib.auth.hashers import check_password, make_password
-from django.http import HttpResponseForbidden, JsonResponse
+from django.core.cache import cache
+from django.http import HttpResponseForbidden, HttpResponseTooManyRequests, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -412,11 +413,33 @@ def auth_register(request):
     return JsonResponse({"success": True, "username": username})
 
 
+# Simple in-memory rate limiting for login attempts
+MAX_ATTEMPTS = 5
+LOCKOUT_SECONDS = 15 * 60  # 15 min
+
+
 def auth_login(request):
     """
     Handles both AJAX (modal) and normal HTML login.
+    Includes simple IP-based rate limiting to reduce brute-force attempts.
     """
     is_ajax = request.headers.get("x-requested-with") == "XMLHttpRequest"
+
+    # Rate limit key per IP (good enough for learning project)
+    ip = request.META.get("REMOTE_ADDR", "unknown")
+    key = f"login_attempts:{ip}"
+    attempts = cache.get(key, 0)
+
+    if attempts >= MAX_ATTEMPTS:
+        if is_ajax:
+            return JsonResponse(
+                {
+                    "success": False,
+                    "error": "Too many login attempts. Try again later.",
+                },
+                status=429,
+            )
+        return HttpResponseTooManyRequests("Too many login attempts. Try again later.")
 
     if request.method == "POST":
         email = request.POST.get("email", "").strip().lower()
@@ -455,12 +478,18 @@ def auth_login(request):
                 break
 
         if not matched:
+            # increment attempts on failure
+            cache.set(key, attempts + 1, timeout=LOCKOUT_SECONDS)
+
             if is_ajax:
                 return JsonResponse(
                     {"success": False, "error": "Invalid credentials."}, status=401
                 )
             messages.error(request, "Invalid credentials.")
             return render(request, "auth_login.html", {"email": email})
+
+        # success: reset attempts
+        cache.delete(key)
 
         request.session["user_email"] = matched.get("Email")
         username = matched.get("User Name") or matched.get("Username") or "Guest"
