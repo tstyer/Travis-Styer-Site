@@ -1,7 +1,9 @@
+import os
 from unittest.mock import MagicMock, patch
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.test import TestCase, override_settings
+from django.test import SimpleTestCase, TestCase, override_settings
 from django.urls import reverse
 
 from main.models import Comment, Project
@@ -515,3 +517,23 @@ class CommentAjaxFlowTests(TestCase):
         url = reverse("comment_create", kwargs={"id": self.project.id})
         res = self._ajax_post(url, {"content": "Nope"})
         self.assertEqual(res.status_code, 403)
+
+
+# CI prod safety check
+
+
+class TestProductionSecuritySettings(SimpleTestCase):
+    def test_security_flags_enabled_when_env_on(self):
+        os.environ["DEBUG"] = "False"
+        os.environ["ENABLE_SECURITY_HEADERS"] = "True"
+
+        # settings are loaded once per process; in CI this test should be run
+        # in a context where env vars are already set before Django starts.
+        # So this test mainly enforces the expected values in that setup.
+
+        self.assertFalse(settings.DEBUG)
+        self.assertTrue(getattr(settings, "SESSION_COOKIE_SECURE", False))
+        self.assertTrue(getattr(settings, "CSRF_COOKIE_SECURE", False))
+        self.assertTrue(getattr(settings, "SECURE_SSL_REDIRECT", False))
+        self.assertGreater(getattr(settings, "SECURE_HSTS_SECONDS", 0), 0)
+        self.assertEqual(getattr(settings, "X_FRAME_OPTIONS", ""), "DENY")
