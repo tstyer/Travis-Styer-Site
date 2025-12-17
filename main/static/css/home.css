@@ -16,6 +16,51 @@
   --color-text: #262A2E;
 }
 
+
+/* HERO LAYOUT */
+
+.home-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+  padding: 4rem 1rem;
+}
+
+/* LEFT CONTENT */
+.home-hero__content {
+  max-width: 600px;
+  text-align: left;
+}
+
+/* Name */
+.home-hero h1 {
+  margin-bottom: 0.75rem;
+}
+
+/* Strapline – same colour as name */
+.home-hero h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: inherit;
+  /* inherits h1 colour */
+  margin: 0.75rem 0 1.25rem;
+}
+
+/* Paragraph text now left-aligned */
+.home-hero .tag-line {
+  text-align: left;
+}
+
+/* RIGHT IMAGE */
+.home-hero__image img {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+
 /* Headers */
 
 .home-hero h1 {
@@ -106,5 +151,22 @@
 @media (max-width: 768px) {
   .tags-list {
     flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .home-hero__content,
+  .home-hero .tag-line {
+    text-align: center;
+  }
+
+  .home-hero__image img {
+    width: 180px;
+    height: 180px;
   }
 }

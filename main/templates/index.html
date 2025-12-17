@@ -12,18 +12,31 @@ Travis Styer
 
 {% block content %}
 <header class="home-hero">
-  <h2>FRONTEND JAVASCRIPT DEVELOPER</h2>
-  <h1>Travis Styer</h1>
-  <h3>Building captivating websites using JavaScript</h3>
-</header>
+  <div class="home-hero__content">
+    <h2>FRONTEND JAVASCRIPT DEVELOPER</h2>
+    <h1>Travis Styer</h1>
+    <h3>Building captivating websites using JavaScript</h3>
 
-<div class="tag-line">
-  <p>
-    I specialise in building accessible and engaging websites using JavaScript to meet brand requirements. Alongside my studies at Code Institute, I use my free time to learn UX/UI design and copywriting. You can see my work by filtering through the <strong>tags</strong> below.
-    <br />
-    And feel free to leave comments, too. Simply create an account, log in and you'll be able to comment on any project.
-  </p>
-</div>
+    <div class="tag-line">
+      <p>
+        I specialise in building accessible and engaging websites using JavaScript
+        to meet brand requirements. Alongside my studies at Code Institute, I use my
+        free time to learn UX/UI design and copywriting. You can see my work by
+        filtering through the <strong>tags</strong> below.
+        <br />
+        And feel free to leave comments, too. Simply create an account, log in and
+        you'll be able to comment on any project.
+      </p>
+    </div>
+  </div>
+
+  <div class="home-hero__image">
+    <img
+      src="{% static 'images/profile.png' %}"
+      alt="Illustration of Travis Styer"
+    />
+  </div>
+</header>
 
 <main>
   <section class="filters">
