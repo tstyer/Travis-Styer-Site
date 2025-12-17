@@ -1,18 +1,35 @@
-"""
-Django settings for portfolio project.
-"""
-
 import json
 import os
 from pathlib import Path
 
 import dj_database_url
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 # Load local env.py if present (local development only)
-if os.path.isfile("env.py"):
+if os.path.isfile(BASE_DIR / "env.py"):
     import env  # noqa: F401
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+# -------------------------------------------------------------------
+# Debug + Security / Secret Key
+# -------------------------------------------------------------------
+
+# DEBUG from env (supports common truthy values)
+DEBUG = os.getenv("DEBUG", "0").strip().lower() in ("1", "true", "yes", "on")
+
+# Security / Secret Key
+SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key-change-me")
+
+# Fail hard if production is misconfigured
+if not DEBUG and SECRET_KEY == "dev-secret-key-change-me":
+    raise ValueError("SECRET_KEY must be set in production.")
+
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "[::1]",
+    ".herokuapp.com",
+]
 
 # -------------------------------------------------------------------
 # Google credentials (service account)
@@ -25,25 +42,6 @@ if os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON"):
 else:
     # Fallback for local development
     GOOGLE_SERVICE_ACCOUNT_FILE = BASE_DIR / "creds.json"
-
-# -------------------------------------------------------------------
-# Security
-# -------------------------------------------------------------------
-SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key-change-me")
-
-# DEBUG from env (supports common truthy values)
-DEBUG = os.getenv("DEBUG", "0").strip().lower() in ("1", "true", "yes", "on")
-
-# Fail hard if production is misconfigured
-if not DEBUG and SECRET_KEY == "dev-secret-key-change-me":
-    raise ValueError("SECRET_KEY must be set in production.")
-
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "localhost",
-    "[::1]",
-    ".herokuapp.com",
-]
 
 # -------------------------------------------------------------------
 # Applications
