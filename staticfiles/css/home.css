@@ -18,7 +18,7 @@
 
 /* H3 */
 
-header h3 {
+.home-hero h3 {
   font-size: 1.1rem;
   /* slightly smaller than default */
   font-weight: 500;
