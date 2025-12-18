@@ -1,17 +1,21 @@
-/* Project Card */
+/* Project cards (used on home + project pages) */
+
 .project-card {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  gap: 1.5rem;
+
+  max-width: 1200px;
+  margin: 0 auto 1.25rem;
+  padding: 1.25rem;
+
   background: rgba(255, 255, 255, 0.78);
   backdrop-filter: blur(4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
-  overflow: hidden;
-  max-width: 1200px; /* Adjust based on preference */
-  margin: 0 auto 1.25rem;
-  padding: 20px;
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
 .project-card:hover {
@@ -20,146 +24,105 @@
   background: rgba(255, 255, 255, 0.9);
 }
 
+/* Project text */
 .project-info {
   flex: 1;
-  padding-right: 20px; /* adds space between the text and the carousel */
 }
 
-h1,
-p {
-  margin-bottom: 20px;
+.project-info h1,
+.project-info h2 {
+  margin-bottom: 0.75rem;
 }
 
-/* Carousel */
-.carousel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  position: relative; /* added to position controls */
-  max-width: 50%; /* adjust the width of the carousel relative to the card */
-  margin-left: 20px; /* adds some space between the info and carousel */
+.project-info p {
+  margin-bottom: 0.9rem;
+  line-height: 1.5;
 }
 
-.carousel-images {
-  display: flex;
-  flex: 1; /* the carousel can fill the space */
-  overflow: hidden;
-  position: relative; /* ensure the images container doesn't overlap controls */
-}
-
-/* Carousel Controls */
-.carousel-control {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  color: white;
-  font-size: 24px;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 10px;
-  cursor: pointer;
-  user-select: none; /* prevent text selection */
-  z-index: 10; /* Ensure controls are above the images */
-}
-
-.carousel-control.prev {
-  left: 0;
-  border-radius: 3px 0 0 3px; /* Personal note: possibly adjust later for consistency */
-}
-
-.carousel-control.next {
-  right: 0;
-  border-radius: 0 3px 3px 0; /* Adjusted for consistency */
-}
-
-
-/* text styling on hover */
-
-/* text inside the card */
+/* Hover text effects */
 .project-card h2,
 .project-card h3,
-.project-card p {
-  transition: color 0.25s ease;
-}
-
-/* when the card is hovered, tint the heading */
-.project-card:hover h2,
-.project-card:hover h3 {
-  color: #2FBBAA; /* mint accent */
-}
-
-/* soften paragraph text on hover */
-.project-card:hover p {
-  color: rgba(38, 42, 46, 0.8);
-}
-
-/* title is a link = tint */
+.project-card p,
 .project-card a {
   transition: color 0.25s ease;
 }
 
+.project-card:hover h2,
+.project-card:hover h3,
 .project-card:hover a {
-  color: #2FBBAA;
+  color: var(--H2H3P-Colour);
 }
 
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .project-card {
-    flex-direction: column;
-  }
-
-  .project-info,
-  .carousel {
-    max-width: 100%;
-    padding: 0;
-  }
-
-  .carousel {
-    order: -1; /* Puts the carousel above the info on small screens */
-    margin-left: 0; /* Resets the margin for smaller screens */
-  }
+.project-card:hover p {
+  color: rgba(38, 42, 46, 0.8);
 }
 
+/* Carousel container */
+.carousel {
+  flex: 1;
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Image strip */
+.carousel-images {
+  display: flex;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+/* Individual slide */
 .carousel-item {
   display: flex;
-  justify-content: center; 
-  align-items: center; 
-  background-color: black;
-  width: 100%; /* Full width of the carousel */
-  height: 400px; /* Fixed height */
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 400px;
+  background-color: #000;
 }
 
 .carousel-item img {
-  max-height: 100%; /* Learning note: limit the image height to fit within the container */
-  max-width: 100%; /* Learning note; limit the image width to fit within the container */
-  object-fit: contain; /* Maintain aspect ratio and fit the image within the bounds */
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
-/* extra for small screens */
+/* Carousel controls (used on project page) */
+.carousel-control {
+  font-size: 0.85rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 1px solid rgba(47, 187, 170, 0.4);
+  background: transparent;
+  color: var(--color-text);
+  transition: background 0.2s ease, transform 0.1s ease;
+}
 
+.carousel-control:hover {
+  background: rgba(47, 187, 170, 0.15);
+  transform: translateY(-1px);
+}
+
+/* --- Responsive --- */
 @media (max-width: 768px) {
   .project-card {
     flex-direction: column;
     gap: 1rem;
-    padding: 1rem 1rem 1.1rem;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.04);
-    margin: 0 0 1rem 0; /* full width on mobile */
+    padding: 1rem;
+    margin: 0 0 1rem;
     max-width: 100%;
-  }
-
-  .project-info {
-    padding-right: 0;
   }
 
   .carousel {
-    order: -1;        /* images first */
-    width: 100%;
+    order: -1;
+    /* images first on mobile */
     max-width: 100%;
-    margin-left: 0;
   }
 
   .carousel-item {
-    height: 240px;    /* less tall on phones */
+    height: 240px;
   }
 }
-

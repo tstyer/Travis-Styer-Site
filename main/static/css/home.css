@@ -1,68 +1,6 @@
-/* Typography (Google fonts loaded in <head>) */
-:root {
-  --font-header: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  --font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  --color-bg: #F6FAFF;
-  --color-text: #333333;
-  --color-accent: #6C63FF;
-  /* colour accent */
-  --color-atags: #4EE0CB;
-  /* Link colours */
-  --color-lightblue: #A4C8F0;
-  --color-shadow: #C8E8F8;
-  --base-font-size: 1rem;
-  --H2H3P-Colour: #2FBBAA;
-  --H1-Colour: #5B55E0;
-  --color-text: #262A2E;
-}
+/* Home page styles (main.css owns typography + variables) */
 
-
-/* HERO LAYOUT */
-
-.home-hero {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 3rem;
-  padding: 4rem 1rem;
-}
-
-/* LEFT CONTENT */
-.home-hero__content {
-  max-width: 600px;
-  text-align: left;
-}
-
-/* Name */
-.home-hero h1 {
-  margin-bottom: 0.75rem;
-}
-
-/* Strapline – same colour as name */
-.home-hero h3 {
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: var(--H2H3P-Colour);
-  margin: 0.75rem 0 1.25rem;
-}
-
-/* Paragraph text now left-aligned */
-.home-hero .tag-line {
-  text-align: left;
-}
-
-/* RIGHT IMAGE */
-.home-hero__image img {
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-
-/* Headers */
-
-/* HERO LAYOUT */
+/* --- Hero --- */
 .home-hero {
   max-width: 1100px;
   margin: 0 auto;
@@ -71,7 +9,7 @@
   gap: 1.5rem;
 }
 
-/* TOP: centered headings */
+/* Top: centered headings */
 .home-hero__top {
   text-align: center;
 }
@@ -87,34 +25,32 @@
 .home-hero__top h3 {
   font-size: 1.15rem;
   font-weight: 600;
-  /* same as h1 */
+  color: var(--H2H3P-Colour);
   margin: 0;
 }
 
-/* BOTTOM: paragraph + avatar closer together */
+/* Bottom: squared-off paragraph + avatar */
 .home-hero__bottom {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 1.25rem;
 }
 
-/* Make the hero paragraph a neat, squared block */
+/* Tighter, “squared” text block */
 .home-hero__bottom .tag-line p {
   max-width: 60ch;
-  /* makes it narrower (try 55–65ch) */
-  text-align: justify;
-  /* squares off the sides */
-  text-justify: inter-word;
-  /* nicer spacing between words */
-  hyphens: auto;
-  /* helps avoid ugly gaps (needs lang="en") */
+  /* narrower column */
   margin: 0;
-  /* keep it snug in the layout */
+  /* snug */
+  text-align: justify;
+  /* squares edges */
+  text-justify: inter-word;
+  hyphens: auto;
+  /* helps reduce weird gaps */
 }
 
-
-/* avatar */
+/* Avatar */
 .home-hero__image img {
   width: 200px;
   height: 200px;
@@ -122,19 +58,22 @@
   object-fit: cover;
 }
 
-/* Filters section */
+/* --- Filters --- */
 .filters {
-  margin-bottom: 20px;
+  margin: 1.25rem auto 0;
+  max-width: 1100px;
+  padding: 0 1rem;
 }
 
 #name-search {
+  width: 100%;
   padding: 10px;
   margin-bottom: 10px;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: 8px;
 }
 
+/* Tags list */
 .tags-list {
   display: flex;
   flex-wrap: wrap;
@@ -142,15 +81,15 @@
   justify-content: center;
 }
 
-/* Only style the filter tags on the home page */
+/* Only style tags inside filters on home */
 .filters .tag {
   background-color: var(--H1-Colour);
-  color: white;
+  color: #fff;
   border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
+  padding: 6px 12px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color ease 0.3s;
+  transition: background-color 0.25s ease, transform 0.1s ease, box-shadow 0.25s ease;
 }
 
 .filters .tag:hover {
@@ -159,69 +98,32 @@
   transform: scale(1.02);
 }
 
-
-/* Paragraph under tags */
-
+/* Helper text under projects */
 #temp-p {
   color: var(--H2H3P-Colour);
   font-family: var(--font-body);
+  margin-top: 1rem;
 }
 
-/* Projects list */
+/* --- Projects list --- */
 .projects-list {
-  margin-top: 20px;
+  margin: 1.25rem auto 0;
+  max-width: 1100px;
+  padding: 0 1rem;
 }
 
-.project {
-  background-color: white;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.project h2 {
-  margin-top: 0;
-}
-
-.project p {
-  margin-bottom: 10px;
-  line-height: 1.5;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-  .tags-list {
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 768px) {
-  .home-hero {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .home-hero__content,
-  .home-hero .tag-line {
-    text-align: center;
-  }
-
-  .home-hero__image img {
-    width: 180px;
-    height: 180px;
-  }
-}
-
-/* Responsive Hero */
+/* Responsive hero */
 @media (max-width: 768px) {
   .home-hero__bottom {
     grid-template-columns: 1fr;
     text-align: center;
   }
 
-  .home-hero__bottom .tag-line {
-    text-align: center;
+  .home-hero__bottom .tag-line p {
+    text-align: left;
+    /* justify can look odd on small screens */
+    max-width: 52ch;
+    margin: 0 auto;
   }
 
   .home-hero__image img {
