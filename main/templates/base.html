@@ -6,24 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% block title %}Travis Styer{% endblock %}</title>
 
-    <!-- self-hosted font awesome -->
+    {# Self-hosted Font Awesome #}
     <link
       rel="stylesheet"
       href="{% static 'vendor/fontawesome/css/all.min.css' %}"
       crossorigin
     />
 
-    <!-- Bootstrap (self-hosted) -->
+    {# Bootstrap (self-hosted) #}
     <link
       rel="stylesheet"
       href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"
     />
 
-    <!-- My CSS -->
+    {# Main CSS #}
     <link rel="stylesheet" href="{% static 'css/main.css' %}" />
     {% block extra_css %}{% endblock %}
 
-    <!-- Favicon -->
+    {# Favicon #}
     <link
       rel="icon"
       type="image/png"
@@ -32,14 +32,16 @@
   </head>
 
   <body class="{% block body_class %}wrapper{% endblock %}">
+    {# Toast messages #}
     {% if messages %}
-    <div class="messages-wrapper">
-      {% for message in messages %}
-      <div class="message-banner {{ message.tags }}">{{ message }}</div>
-      {% endfor %}
-    </div>
+      <div class="messages-wrapper">
+        {% for message in messages %}
+          <div class="message-banner {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
     {% endif %}
-    <!-- NavBar -->
+
+    {# NavBar #}
     <nav class="site-nav">
       <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
 
@@ -49,41 +51,46 @@
             class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'home' %}active{% endif %}"
             aria-current="{% if request.resolver_match and request.resolver_match.url_name == 'home' %}page{% endif %}"
             href="{% url 'home' %}"
-            >Home</a
           >
+            Home
+          </a>
         </li>
+
         <li class="nav-item">
           <a
             class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'contact' %}active{% endif %}"
             aria-current="{% if request.resolver_match and request.resolver_match.url_name == 'contact' %}page{% endif %}"
             href="{% url 'contact' %}"
-            >Contact</a
           >
+            Contact
+          </a>
         </li>
       </ul>
 
       <div class="auth-container">
         {% if request.user.is_authenticated or request.session.user_email %}
-        <form method="post" action="{% url 'auth_logout' %}">
-          {% csrf_token %}
-          <input type="hidden" name="next" value="{{ request.path }}" />
-          <button type="submit" class="auth-btn nav-auth-btn">Sign out</button>
-        </form>
+          <form method="post" action="{% url 'auth_logout' %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.path }}" />
+            <button type="submit" class="auth-btn nav-auth-btn">
+              Sign out
+            </button>
+          </form>
         {% else %}
-        <button
-          type="button"
-          class="auth-btn nav-auth-btn"
-          id="open-auth-modal"
-        >
-          Sign in / Register
-        </button>
+          <button
+            type="button"
+            class="auth-btn nav-auth-btn"
+            id="open-auth-modal"
+          >
+            Sign in / Register
+          </button>
         {% endif %}
       </div>
     </nav>
 
     {% block content %}{% endblock %}
 
-    <!-- Footer -->
+    {# Footer #}
     <footer>
       <ul class="icons">
         <li>
@@ -104,6 +111,7 @@
             </svg>
           </a>
         </li>
+
         <li>
           <a
             href="https://www.linkedin.com"
@@ -123,10 +131,11 @@
           </a>
         </li>
       </ul>
+
       <p class="copyright">&copy; Travis Styer</p>
     </footer>
 
-    <!-- Comments modal -->
+    {# Comments modal #}
     <div id="comments-modal" class="comments-modal">
       <div class="comments-modal__backdrop"></div>
       <div class="comments-modal__content">
@@ -139,7 +148,7 @@
 
     {% block extra_modals %}{% endblock %}
 
-    <!-- Authorisation modal -->
+    {# Authorisation modal #}
     <div id="auth-modal" class="auth-modal">
       <div class="auth-modal__backdrop"></div>
       <div class="auth-modal__content">
@@ -149,6 +158,7 @@
 
         <form id="auth-form">
           {% csrf_token %}
+
           <label for="auth-email">Email</label>
           <input type="email" id="auth-email" name="email" required />
 
@@ -170,7 +180,7 @@
 
     {% block inline_scripts %}{% endblock %}
 
-    <!-- Scripts -->
+    {# Scripts #}
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'javascript/home.js' %}" defer></script>
   </body>

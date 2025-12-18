@@ -4,131 +4,156 @@
   </header>
 {% endif %}
 
+{# ---------- COMMENT FORM ---------- #}
+{% if form %}
+  <form
+    method="post"
+    action="{% url 'comment_create' id=project.id %}"
+    class="comments-form"
+  >
+    {% csrf_token %}
+    {{ form.non_field_errors }}
 
-  {# ---------- COMMENT FORM ---------- #}
-  {% if form %}
-    <form method="post"
-          action="{% url 'comment_create' id=project.id %}"
-          class="comments-form">
-      {% csrf_token %}
-      {{ form.non_field_errors }}
+    <div class="comments-form__field">
+      {{ form.content.errors }}
+      {{ form.content }}
+    </div>
 
-      <div class="comments-form__field">
-        {{ form.content.errors }}
-        {{ form.content }}
-      </div>
+    <div class="comments-form__actions">
+      <button type="submit" class="comments-btn-primary">
+        Post comment
+      </button>
+    </div>
+  </form>
+{% else %}
+  <p class="comments-signin-note">
+    You need to be signed in to leave a comment.
+  </p>
+{% endif %}
 
-      <div class="comments-form__actions">
-        <button type="submit" class="comments-btn-primary">
-          Post comment
-        </button>
-      </div>
-    </form>
-  {% else %}
-    <p class="comments-signin-note">
-      You need to be signed in to leave a comment.
+{# ---------- SCROLLABLE COMMENTS LIST ---------- #}
+<div class="comments-scroll">
+  {% for c in comments %}
+    <article class="comment-card">
+      <header class="comment-card__meta">
+        <span class="comment-card__author">
+          {{ c.user.username|default:c.author_name|default:"Anon" }}
+        </span>
+
+        <div class="comment-card__meta-right">
+          <time
+            class="comment-card__date"
+            datetime="{{ c.created_at|date:'c' }}"
+          >
+            {{ c.created_at|date:"Y-m-d H:i" }}
+          </time>
+
+          {# ---- Permission gate: show controls only to owner (or staff) ---- #}
+          {% with
+            session_name=request.session.user_name
+            session_email=request.session.user_email
+          %}
+
+            {% if request.user.is_authenticated and request.user.is_staff %}
+              {# Staff can manage all comments #}
+              <button
+                type="button"
+                class="comment-edit-btn"
+                data-content="{{ c.content|escapejs }}"
+                data-update-url="{% url 'comment_update' id=project.id comment_id=c.id %}"
+              >
+                Edit
+              </button>
+
+              <form
+                method="post"
+                action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
+                class="comment-delete-form"
+              >
+                {% csrf_token %}
+                <button type="submit" class="comment-delete-btn">
+                  Delete
+                </button>
+              </form>
+
+            {% elif c.user and request.user.is_authenticated and request.user == c.user %}
+              {# Authenticated owner #}
+              <button
+                type="button"
+                class="comment-edit-btn"
+                data-content="{{ c.content|escapejs }}"
+                data-update-url="{% url 'comment_update' id=project.id comment_id=c.id %}"
+              >
+                Edit
+              </button>
+
+              <form
+                method="post"
+                action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
+                class="comment-delete-form"
+              >
+                {% csrf_token %}
+                <button type="submit" class="comment-delete-btn">
+                  Delete
+                </button>
+              </form>
+
+            {% elif not c.user and c.author_name and session_name and session_name == c.author_name %}
+              {# Session/sheet owner by name #}
+              <button
+                type="button"
+                class="comment-edit-btn"
+                data-content="{{ c.content|escapejs }}"
+                data-update-url="{% url 'comment_update' id=project.id comment_id=c.id %}"
+              >
+                Edit
+              </button>
+
+              <form
+                method="post"
+                action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
+                class="comment-delete-form"
+              >
+                {% csrf_token %}
+                <button type="submit" class="comment-delete-btn">
+                  Delete
+                </button>
+              </form>
+
+            {% elif not c.user and c.author_email and session_email and session_email == c.author_email %}
+              {# Session/sheet owner by email (more reliable) #}
+              <button
+                type="button"
+                class="comment-edit-btn"
+                data-content="{{ c.content|escapejs }}"
+                data-update-url="{% url 'comment_update' id=project.id comment_id=c.id %}"
+              >
+                Edit
+              </button>
+
+              <form
+                method="post"
+                action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
+                class="comment-delete-form"
+              >
+                {% csrf_token %}
+                <button type="submit" class="comment-delete-btn">
+                  Delete
+                </button>
+              </form>
+            {% endif %}
+
+          {% endwith %}
+        </div>
+      </header>
+
+      <p class="comment-card__body">
+        {{ c.content }}
+      </p>
+    </article>
+  {% empty %}
+    <p class="comments-empty">
+      No comments yet. Be the first!
     </p>
-  {% endif %}
-
-  {# ---------- SCROLLABLE COMMENTS LIST ---------- #}
-  <div class="comments-scroll">
-    {% for c in comments %}
-      <article class="comment-card">
-        <header class="comment-card__meta">
-          <span class="comment-card__author">
-            {{ c.user.username|default:c.author_name|default:"Anon" }}
-          </span>
-
-          <div class="comment-card__meta-right">
-            <time class="comment-card__date"
-                  datetime="{{ c.created_at|date:'c' }}">
-              {{ c.created_at|date:"Y-m-d H:i" }}
-            </time>
-
-            {# ---- Permission gate: show controls only to owner (or staff) ---- #}
-            {% with session_name=request.session.user_name session_email=request.session.user_email %}
-              {% if request.user.is_authenticated and request.user.is_staff %}
-                {# staff can manage all comments #}
-                <button type="button"
-                        class="comment-edit-btn"
-                        data-content="{{ c.content|escapejs }}"
-                        data-update-url="{% url 'comment_update' id=project.id comment_id=c.id %}">
-                  Edit
-                </button>
-
-                <form method="post"
-                      action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
-                      class="comment-delete-form">
-                  {% csrf_token %}
-                  <button type="submit" class="comment-delete-btn">
-                    Delete
-                  </button>
-                </form>
-
-              {% elif c.user and request.user.is_authenticated and request.user == c.user %}
-                {# authenticated owner #}
-                <button type="button"
-                        class="comment-edit-btn"
-                        data-content="{{ c.content|escapejs }}"
-                        data-update-url="{% url 'comment_update' id=project.id comment_id=c.id %}">
-                  Edit
-                </button>
-
-                <form method="post"
-                      action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
-                      class="comment-delete-form">
-                  {% csrf_token %}
-                  <button type="submit" class="comment-delete-btn">
-                    Delete
-                  </button>
-                </form>
-
-              {% elif not c.user and c.author_name and session_name and session_name == c.author_name %}
-                {# session/sheet owner by name #}
-                <button type="button"
-                        class="comment-edit-btn"
-                        data-content="{{ c.content|escapejs }}"
-                        data-update-url="{% url 'comment_update' id=project.id comment_id=c.id %}">
-                  Edit
-                </button>
-
-                <form method="post"
-                      action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
-                      class="comment-delete-form">
-                  {% csrf_token %}
-                  <button type="submit" class="comment-delete-btn">
-                    Delete
-                  </button>
-                </form>
-
-              {% elif not c.user and c.author_email and session_email and session_email == c.author_email %}
-                {# session/sheet owner by email (more reliable) #}
-                <button type="button"
-                        class="comment-edit-btn"
-                        data-content="{{ c.content|escapejs }}"
-                        data-update-url="{% url 'comment_update' id=project.id comment_id=c.id %}">
-                  Edit
-                </button>
-
-                <form method="post"
-                      action="{% url 'comment_delete' id=project.id comment_id=c.id %}"
-                      class="comment-delete-form">
-                  {% csrf_token %}
-                  <button type="submit" class="comment-delete-btn">
-                    Delete
-                  </button>
-                </form>
-              {% endif %}
-            {% endwith %}
-          </div>
-        </header>
-
-        <p class="comment-card__body">
-          {{ c.content }}
-        </p>
-      </article>
-    {% empty %}
-      <p class="comments-empty">No comments yet. Be the first!</p>
-    {% endfor %}
-  </div>
+  {% endfor %}
 </div>

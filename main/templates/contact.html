@@ -1,14 +1,18 @@
-{% extends "base.html" %} 
-{% load static %} 
+{% extends "base.html" %}
+{% load static %}
+
 {% block title %}
 Contact Travis
-{%endblock %} 
+{% endblock %}
+
 {% block body_class %}
 wrapper contact-page
-{% endblock %} 
+{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/contact.css' %}" />
-{% endblock %} 
+{% endblock %}
+
 {% block content %}
 
 <header>
@@ -16,17 +20,16 @@ wrapper contact-page
   <h3>Send me a message below!</h3>
 </header>
 
-<!-- Flash messages -->
+{# Flash messages #}
 {% if messages %}
-<div class="flash-messages">
-  {% for message in messages %}
-  <p class="flash flash-{{ message.tags }}">{{ message }}</p>
-  {% endfor %}
-</div>
+  <div class="flash-messages">
+    {% for message in messages %}
+      <p class="flash flash-{{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  </div>
 {% endif %}
 
 <main>
-  <!-- Contact form -->
   <section class="contact-section">
     <div class="contact-card">
       <form
@@ -37,47 +40,59 @@ wrapper contact-page
       >
         {% csrf_token %}
 
-{# Non-field (form-wide) errors #}
-{% if form.non_field_errors %}
-  <div class="form-errors">{{ form.non_field_errors }}</div>
-{% endif %}
-
+        {# Non-field (form-wide) errors #}
+        {% if form.non_field_errors %}
+          <div class="form-errors">
+            {{ form.non_field_errors }}
+          </div>
+        {% endif %}
 
         <div class="form-row">
           <label for="{{ form.name.id_for_label }}">Name</label>
-          {{ form.name }} {% if form.name.errors %}
-          <div class="text-danger small">{{ form.name.errors|striptags }}</div>
+          {{ form.name }}
+          {% if form.name.errors %}
+            <div class="text-danger small">
+              {{ form.name.errors|striptags }}
+            </div>
           {% endif %}
         </div>
 
         <div class="form-row">
           <label for="{{ form.email.id_for_label }}">Email</label>
-          {{ form.email }} {% if form.email.errors %}
-          <div class="text-danger small">{{ form.email.errors|striptags }}</div>
+          {{ form.email }}
+          {% if form.email.errors %}
+            <div class="text-danger small">
+              {{ form.email.errors|striptags }}
+            </div>
           {% endif %}
         </div>
 
         <div class="form-row">
           <label for="{{ form.subject.id_for_label }}">Subject</label>
-          {{ form.subject }} {% if form.subject.errors %}
-          <div class="text-danger small">
-            {{ form.subject.errors|striptags }}
-          </div>
+          {{ form.subject }}
+          {% if form.subject.errors %}
+            <div class="text-danger small">
+              {{ form.subject.errors|striptags }}
+            </div>
           {% endif %}
         </div>
 
         <div class="form-row">
           <label for="{{ form.message.id_for_label }}">Message</label>
-          {{ form.message }} {% if form.message.errors %}
-          <div class="text-danger small">
-            {{ form.message.errors|striptags }}
-          </div>
+          {{ form.message }}
+          {% if form.message.errors %}
+            <div class="text-danger small">
+              {{ form.message.errors|striptags }}
+            </div>
           {% endif %}
         </div>
 
-        <button type="submit" class="tag contact-submit">Send message</button>
+        <button type="submit" class="tag contact-submit">
+          Send message
+        </button>
       </form>
     </div>
   </section>
 </main>
+
 {% endblock %}
