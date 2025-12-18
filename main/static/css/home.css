@@ -92,8 +92,8 @@
 
 /* Home page filter tags – match H1 colour */
 .filters .tag {
-  background-color: var(--H1-Colour);
-  color: #ffffff;
+  background: color-mix(in srgb, var(--H1-Colour) 85%, #ffffff);
+  color: #fff;
   border: none;
 
   padding: 0.45rem 0.9rem;
