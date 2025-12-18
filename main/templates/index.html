@@ -12,11 +12,13 @@ Travis Styer
 
 {% block content %}
 <header class="home-hero">
-  <div class="home-hero__content">
+  <div class="home-hero__top">
     <h2>FRONTEND JAVASCRIPT DEVELOPER</h2>
     <h1>Travis Styer</h1>
     <h3>Building captivating websites using JavaScript</h3>
+  </div>
 
+  <div class="home-hero__bottom">
     <div class="tag-line">
       <p>
         I specialise in building accessible and engaging websites using JavaScript
@@ -28,15 +30,16 @@ Travis Styer
         you'll be able to comment on any project.
       </p>
     </div>
-  </div>
 
-  <div class="home-hero__image">
-    <img
-      src="{% static 'images/avataaars.png' %}"
-      alt="Illustration of Travis Styer"
-    />
+    <div class="home-hero__image">
+      <img
+        src="{% static 'images/avataaars.png' %}"
+        alt="Illustration of Travis Styer"
+      />
+    </div>
   </div>
 </header>
+
 
 <main>
   <section class="filters">
