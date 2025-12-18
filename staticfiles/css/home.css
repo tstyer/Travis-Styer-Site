@@ -4,7 +4,7 @@
     sans-serif;
   --font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial,
     sans-serif;
-  --H1H3-Colour: #4F46E5;
+  --H1-Colour: #4F46E5;
 }
 
 /* Home page styles (main.css owns typography + variables) */
@@ -90,22 +90,36 @@
   justify-content: center;
 }
 
-/* Only style tags inside filters on home */
+/* Home page filter tags – match H1 colour */
 .filters .tag {
   background-color: var(--H1-Colour);
-  color: #fff;
+  color: #ffffff;
   border: none;
-  padding: 6px 12px;
-  border-radius: 8px;
+
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+
+  font-size: 0.85rem;
+  font-weight: 500;
+
   cursor: pointer;
-  transition: background-color 0.25s ease, transform 0.1s ease, box-shadow 0.25s ease;
+  transition: background-color 0.25s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
 
 .filters .tag:hover {
-  background-color: var(--H2H3P-Colour);
-  box-shadow: 0 0 10px rgba(47, 187, 170, 0.6);
-  transform: scale(1.02);
+  background-color: #4338CA;
+  /* slightly darker than H1 */
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.35);
+  transform: translateY(-1px);
 }
+
+/* Active (selected) tag */
+.filters .tag.active {
+  background-color: #3730A3;
+  /* darkest state */
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
 
 /* Helper text under projects */
 #temp-p {
