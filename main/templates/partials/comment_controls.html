@@ -10,6 +10,7 @@
 
   <form
     method="post"
+    class="comment-delete-form"
     action="{% url 'comment_delete' project.id c.id %}"
     style="display:inline">
     {% csrf_token %}
