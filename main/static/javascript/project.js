@@ -1,11 +1,6 @@
 let slideIndex = 1;
 showSlides(slideIndex)
 
-//function moveSlide(n) {
-//    slideIndex += n
-//    showSlides(slideIndex)
-//}
-
 function showSlides(n) {
     let slides = document.getElementsByClassName("carousel-item") // Collect all div's related.
     // As n hits no. of images, we go back to first.
