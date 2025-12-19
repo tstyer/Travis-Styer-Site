@@ -471,6 +471,21 @@ footer {
   box-shadow: none;
 }
 
+/* edit button */
+.comment-edit-link {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: #0d6efd;
+  cursor: pointer;
+  font: inherit;
+  text-decoration: underline;
+}
+
+.comment-edit-link:hover {
+  color: #0a58ca;
+}
+
 .comment-btn:hover {
   background: rgba(47, 187, 170, 0.22);
   color: var(--color-text);
