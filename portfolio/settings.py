@@ -15,7 +15,7 @@ if os.path.isfile(BASE_DIR / "env.py"):
 # -------------------------------------------------------------------
 
 # DEBUG from env (supports common truthy values)
-DEBUG = os.getenv("DEBUG", "0").strip().lower() in ("1", "true", "yes", "on")
+DEBUG = False
 
 # Security / Secret Key
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key-change-me")
