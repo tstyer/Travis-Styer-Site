@@ -1,3 +1,5 @@
+/* global module */
+
 const nameSearch = document.getElementById("name-search");
 const projects = document.querySelectorAll(".project-card");
 const tags = document.querySelectorAll(".tag");
@@ -227,6 +229,7 @@ const authModeInput = document.getElementById("auth-mode");
 // optional badge 
 const userBadge = document.getElementById("user-badge");
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function setLoggedIn(username) {
   if (userBadge) {
     userBadge.textContent = `Hi, ${username}`;
