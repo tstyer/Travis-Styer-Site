@@ -1,12 +1,14 @@
 {# Buttons shown only when the permission gate allows it #}
 
 <div class="comment-controls">
-  <a
-    class="btn btn-sm btn-outline-secondary"
-    href="{% url 'comment_update' project.id c.id %}"
-    aria-label="Edit comment">
-    Edit
-  </a>
+  <button
+  type="button"
+  class="btn btn-sm btn-outline-secondary comment-edit-btn"
+  data-content="{{ c.content|escapejs }}"
+  data-update-url="{% url 'comment_update' project.id c.id %}"
+  aria-label="Edit comment">
+  Edit
+</button>
 
   <form
     method="post"
