@@ -224,7 +224,7 @@ const authTitle = authModal ? authModal.querySelector(".auth-title") : null;
 const authSub = authModal ? authModal.querySelector(".auth-sub") : null;
 const authModeInput = document.getElementById("auth-mode");
 
-// optional badge if you ever add it
+// optional badge 
 const userBadge = document.getElementById("user-badge");
 
 function setLoggedIn(username) {
@@ -343,7 +343,6 @@ function wireCommentsModal(rootEl) {
     });
   });
 
-  // 🔹 EDIT: fill form with an existing comment and point the form at update URL
   rootEl.querySelectorAll(".comment-edit-btn").forEach((btn) => {
     btn.addEventListener("click", function () {
       if (!commentForm || !textarea) return;
