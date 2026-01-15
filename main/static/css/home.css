@@ -99,7 +99,7 @@
 
 /* Home page filter tags – match H1 colour */
 .filters .tag {
-  background: color-mix(in srgb, var(--H1-Colour) 85%, #ffffff);
+  background: var(--H1-Colour); 
   color: #fff;
   border: none;
 
@@ -112,6 +112,7 @@
   cursor: pointer;
   transition: background-color 0.25s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
+
 
 .filters .tag:hover {
   background-color: #4338CA;
