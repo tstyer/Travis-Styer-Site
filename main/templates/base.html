@@ -33,7 +33,9 @@
     {% if messages %}
       <div class="messages-wrapper">
         {% for message in messages %}
-          <div class="message-banner {{ message.tags }}">{{ message }}</div>
+          <div class="message-banner {{ message.tags }}">
+            {{ message }}
+          </div>
         {% endfor %}
       </div>
     {% endif %}
@@ -44,25 +46,21 @@
 
       <ul class="nav justify-content-center nav-menu">
         <li class="nav-item">
-          {% with is_home=request.resolver_match and request.resolver_match.url_name == 'home' %}
-            <a
-              class="nav-link{% if is_home %} active{% endif %}"
-              {% if is_home %}aria-current="page"{% endif %}
-              href="{% url 'home' %}">
-              Home
-            </a>
-          {% endwith %}
+          <a
+            class="nav-link{% if request.resolver_match and request.resolver_match.url_name == 'home' %} active{% endif %}"
+            {% if request.resolver_match and request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %}
+            href="{% url 'home' %}">
+            Home
+          </a>
         </li>
 
         <li class="nav-item">
-          {% with is_contact=request.resolver_match and request.resolver_match.url_name == 'contact' %}
-            <a
-              class="nav-link{% if is_contact %} active{% endif %}"
-              {% if is_contact %}aria-current="page"{% endif %}
-              href="{% url 'contact' %}">
-              Contact
-            </a>
-          {% endwith %}
+          <a
+            class="nav-link{% if request.resolver_match and request.resolver_match.url_name == 'contact' %} active{% endif %}"
+            {% if request.resolver_match and request.resolver_match.url_name == 'contact' %}aria-current="page"{% endif %}
+            href="{% url 'contact' %}">
+            Contact
+          </a>
         </li>
       </ul>
 

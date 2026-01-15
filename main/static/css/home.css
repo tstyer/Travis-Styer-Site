@@ -38,6 +38,13 @@
   margin: 0;
 }
 
+.home-hero__top .hero-tagline {
+  font-weight: 600;
+  font-size: var(--base-font-size);
+  letter-spacing: 0.25em;
+  color: #249988;
+}
+
 /* Bottom: squared-off paragraph + avatar */
 .home-hero__bottom {
   display: grid;
