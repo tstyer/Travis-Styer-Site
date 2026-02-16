@@ -60,7 +60,10 @@ h1 {
   font-weight: 700;
   font-size: clamp(2rem, 4.5vw, 3rem);
   color: var(--H1-Colour);
-  box-shadow: 0 0 10px rgba(47, 187, 170, 0.35);
+}
+
+.home-hero h1 {
+ box-shadow: 0 0 10px rgba(47, 187, 170, 0.35);
 }
 
 header h1 {
