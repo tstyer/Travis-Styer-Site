@@ -60,7 +60,7 @@ h1 {
   font-weight: 700;
   font-size: clamp(2rem, 4.5vw, 3rem);
   color: var(--H1-Colour);
-  border: 2px solid #fff;
+  box-shadow: 0 0 10px rgba(47, 187, 170, 0.35);
 }
 
 header h1 {
@@ -83,7 +83,7 @@ p {
 a {
   text-decoration: none;
   font-family: var(--font-body);
-  color: var(--color-atags);
+  color: var(--color-text);
   transition: color 0.25s ease;
 }
 
@@ -124,7 +124,7 @@ h1 strong {
   z-index: 999;
   display: flex;
   justify-content: space-between;
-  /* ✅ keep consistent */
+  /* keep consistent */
   align-items: center;
   gap: 1rem;
   padding: 0.75rem 1.5rem;
