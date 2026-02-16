@@ -60,6 +60,7 @@ h1 {
   font-weight: 700;
   font-size: clamp(2rem, 4.5vw, 3rem);
   color: var(--H1-Colour);
+  border: #fff thin;
 }
 
 header h1 {
