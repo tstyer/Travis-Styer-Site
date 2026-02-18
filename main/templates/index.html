@@ -16,7 +16,7 @@ Travis Styer
   <div class="home-hero__top">
     <p class="hero-tagline">WEB DESIGNER & DEVELOPER</p>
     <h1>Travis Styer</h1>
-    <h2>Click the tags to see my work</h2>
+    <button class="home-cta">See My Work</button>
   </div>
 
   <div class="home-hero__bottom">
@@ -36,6 +36,7 @@ Browse my projects by selecting a tag below or searching by name.
 </header>
 
 <main>
+  <!--
   <section class="filters">
     <h2 class="visually-hidden">Project filters</h2>
 
@@ -56,7 +57,8 @@ Browse my projects by selecting a tag below or searching by name.
       {% endfor %}
     </div>
   </section>
-
+ -->
+  <!--
   <section class="projects-list">
     <h2 class="visually-hidden">Projects</h2>
 
@@ -93,16 +95,19 @@ Browse my projects by selecting a tag below or searching by name.
       <p>No projects found.</p>
     {% endfor %}
   </section>
-
-  <p id="temp-p">
+  -->
+<!--<p id="temp-p">
     Select a tag or type in the search field to filter projects.
   </p>
+  -->
+  
 </main>
+
 
 {% endblock %}
 
 {% block extra_modals %}
-
+<!--
 <div id="project-info-modal" class="project-info-modal">
   <div class="project-info-modal__backdrop"></div>
 
@@ -126,10 +131,12 @@ Browse my projects by selecting a tag below or searching by name.
     </div>
   </div>
 </div>
-
+-->
 {% endblock %}
 
+
 {% block inline_scripts %}
+<!--
 <script>
   // DB-backed project data
   const projectsData = {
@@ -179,4 +186,5 @@ Browse my projects by selecting a tag below or searching by name.
   projectInfoCloseBtn.addEventListener("click", closeProjectInfoModal);
   projectInfoBackdrop.addEventListener("click", closeProjectInfoModal);
 </script>
+-->
 {% endblock %}
