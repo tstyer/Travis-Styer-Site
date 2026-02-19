@@ -54,6 +54,28 @@
   gap: 1.25rem;
 }
 
+/* home cta */
+.home-cta-btn {
+  display: inline-block;
+  text-decoration: none;
+
+  background-color: transparent;
+  color: var(--color-text);
+  border: 1.5px solid rgba(47, 187, 170, 0.4);
+  padding: 10px 18px;
+  border-radius: 6px;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: none;
+}
+
+.home-cta-btn:hover {
+  background-color: rgba(47, 187, 170, 0.12);
+  box-shadow: 0 0 10px rgba(47, 187, 170, 0.35);
+  transform: translateY(-2px);
+}
+
 /* Tighter, “squared” text block */
 .home-hero__bottom .tag-line p {
   max-width: 60ch;
