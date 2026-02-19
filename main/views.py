@@ -31,6 +31,12 @@ def home(request):
     return render(request, "index.html", {"projects": projects, "tags": tags})
 
 
+def my_work(request):
+    projects = Project.objects.all()
+    tags = Tag.objects.all()
+    return render(request, "my_work.html", {"projects": projects, "tags": tags})
+
+
 def contact(request):
     """
     Handle contact form submissions and render the contact page.

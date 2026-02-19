@@ -57,7 +57,11 @@
 /* home cta */
 
 .home-first-cta {
-  margin-top: 15px;
+  margin-top: 30px;
+}
+
+.home-second-cta {
+  margin-top: 30px;
 }
 
 .home-cta-btn {
