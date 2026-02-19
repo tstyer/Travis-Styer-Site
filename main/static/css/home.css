@@ -55,6 +55,11 @@
 }
 
 /* home cta */
+
+.home-first-cta {
+  margin-top: 15px;
+}
+
 .home-cta-btn {
   display: inline-block;
   text-decoration: none;
@@ -63,7 +68,7 @@
   background-color: transparent;
   color: var(--color-text);
   border: 1.5px solid rgba(47, 187, 170, 0.4);
-  padding: 25px 18px;
+  padding: 10px 18px;
   border-radius: 6px;
 
   cursor: pointer;
