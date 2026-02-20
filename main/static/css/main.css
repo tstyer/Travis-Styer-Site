@@ -280,7 +280,7 @@ footer {
   flex-flow: row wrap;
   gap: 2rem;
   justify-content: center;
-  /* ✅ only affects icon list */
+  /* only affects icon list */
 }
 
 .icons svg {
@@ -851,7 +851,7 @@ main {
   margin-bottom: 1.5rem;
 }
 
-/* ✅ Fix: your link id in index.html is project-info-github */
+/* Fix: your link id in index.html is project-info-github */
 #project-info-github {
   display: inline-block;
   padding: 5px 10px;

@@ -39,76 +39,63 @@ Travis Styer
     </div>
   </div>
 
-  <div class="home-second-cta">
-        <a class="home-cta-btn" href="/my-work/">See My Work</a>
-  </div>
 </header>
 
 <main>
-  <!--
-  <section class="filters">
-    <h2 class="visually-hidden">Project filters</h2>
 
-    <input
-      type="text"
-      id="name-search"
-      placeholder="Search by project">
+  <div class="what_i_use">
+    <a class="home-cta-btn" href="/my-work/">What I Use</a>
+  </div>
 
-    <div class="tags-list">
-      {% for tag in tags %}
-        <button
-          class="tag"
-          data-tag="{{ tag.name|lower|escape }}">
-          {{ tag.name }}
-        </button>
-      {% empty %}
-        <p class="small">No tags yet.</p>
-      {% endfor %}
-    </div>
+  <!-- What I Use: floating tech badges -->
+  <section class="home-tech" aria-label="What I Use">
+    <ul class="tech-badges" role="list">
+      <li class="tech-badge">
+        <img class="tech-icon" src="{% static 'images/tech/react.svg' %}" alt="" aria-hidden="true">
+        <span>React</span>
+      </li>
+
+      <li class="tech-badge">
+        <img class="tech-icon" src="{% static 'images/tech/nodejs.svg' %}" alt="" aria-hidden="true">
+        <span>Node.js</span>
+      </li>
+
+      <li class="tech-badge">
+        <img class="tech-icon" src="{% static 'images/tech/tailwind.svg' %}" alt="" aria-hidden="true">
+        <span>Tailwind CSS</span>
+      </li>
+
+      <li class="tech-badge">
+        <img class="tech-icon" src="{% static 'images/tech/typescript.svg' %}" alt="" aria-hidden="true">
+        <span>TypeScript</span>
+      </li>
+
+      <li class="tech-badge">
+        <img class="tech-icon" src="{% static 'images/tech/django.svg' %}" alt="" aria-hidden="true">
+        <span>Django</span>
+      </li>
+
+      <li class="tech-badge">
+        <img class="tech-icon" src="{% static 'images/tech/aws.svg' %}" alt="" aria-hidden="true">
+        <span>AWS</span>
+      </li>
+
+      <li class="tech-badge">
+        <img class="tech-icon" src="{% static 'images/tech/jest.svg' %}" alt="" aria-hidden="true">
+        <span>Jest</span>
+      </li>
+
+      <li class="tech-badge">
+        <img class="tech-icon" src="{% static 'images/tech/figma.svg' %}" alt="" aria-hidden="true">
+        <span>Figma</span>
+      </li>
+
+      <li class="tech-badge">
+        <img class="tech-icon" src="{% static 'images/tech/photoshop.svg' %}" alt="" aria-hidden="true">
+        <span>Photoshop</span>
+      </li>
+    </ul>
   </section>
- -->
-  <!--
-  <section class="projects-list">
-    <h2 class="visually-hidden">Projects</h2>
-
-    {% for project in projects %}
-      <div
-        class="project-card"
-        data-name="{{ project.title|lower|escape }}"
-        data-tags="{% for tag in project.tags.all %}{{ tag.name|lower|escape }} {% endfor %}"
-        data-project-id="{{ project.id }}">
-
-        <h3 class="project-title">
-          <a
-            href="#"
-            class="project-info-link"
-            data-project-id="{{ project.id }}">
-            {{ project.title }}
-          </a>
-        </h3>
-
-        <p>{{ project.description }}</p>
-
-        <p>
-          <strong>Tags:</strong>
-          {% for tag in project.tags.all %}
-            {{ tag.name }}{% if not forloop.last %}, {% endif %}
-          {% endfor %}
-        </p>
-
-        <button class="comment-btn" type="button">
-          Comments
-        </button>
-      </div>
-    {% empty %}
-      <p>No projects found.</p>
-    {% endfor %}
-  </section>
-  -->
-<!--<p id="temp-p">
-    Select a tag or type in the search field to filter projects.
-  </p>
-  -->
   
 </main>
 

@@ -61,11 +61,6 @@
   color: #249988
 }
 
-.home-second-cta {
-  margin-top: 30px;
-  color: #249988
-}
-
 .home-cta-btn {
   display: inline-block;
   text-decoration: none;
@@ -87,6 +82,87 @@
   box-shadow: 0 0 10px rgba(47, 187, 170, 0.35);
   transform: translateY(-2px);
 }
+
+/* Floating tags */
+
+.home-tech {
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: center;
+}
+
+.tech-badges {
+  width: min(900px, 100%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  padding: 0.75rem 0;
+  margin: 0;
+  list-style: none;
+}
+
+.tech-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px 14px;
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.55);
+  border: 1.5px solid rgba(47, 187, 170, 0.35);
+  backdrop-filter: blur(6px);
+
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+
+  box-shadow: 0 10px 26px rgba(22, 42, 65, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+
+  /* Floating animation */
+  animation: tech-float 5.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.tech-badge:hover {
+  background: rgba(47, 187, 170, 0.10);
+  box-shadow: 0 0 10px rgba(47, 187, 170, 0.35);
+  transform: translateY(-3px);
+}
+
+.tech-icon {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+/* Subtle variation so they don’t float in sync */
+.tech-badge:nth-child(2) { animation-duration: 6.2s; animation-delay: 0.2s; }
+.tech-badge:nth-child(3) { animation-duration: 5.8s; animation-delay: 0.4s; }
+.tech-badge:nth-child(4) { animation-duration: 6.6s; animation-delay: 0.1s; }
+.tech-badge:nth-child(5) { animation-duration: 5.9s; animation-delay: 0.3s; }
+.tech-badge:nth-child(6) { animation-duration: 6.4s; animation-delay: 0.5s; }
+.tech-badge:nth-child(7) { animation-duration: 5.7s; animation-delay: 0.25s; }
+.tech-badge:nth-child(8) { animation-duration: 6.1s; animation-delay: 0.35s; }
+
+@keyframes tech-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Accessibility: respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .tech-badge {
+    animation: none;
+  }
+}
+
 
 /* Tighter, “squared” text block */
 .home-hero__bottom .tag-line p {
