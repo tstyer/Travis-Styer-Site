@@ -1,8 +1,16 @@
-{% extends "base.html" %} {% load static %} {% block title %}My Work{% endblock
-%} {% block extra_css %}
+{% extends "base.html" %} 
+{% load static %} 
+{% block title %} 
+My Work 
+{% endblock %}} 
+
+{% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/project.css' %}" />
 <link rel="stylesheet" href="{% static 'css/my_work.css' %}" />
-{% endblock %} {% block content %}
+{% endblock %} 
+
+
+{% block content %}
 
 <header class="work-header">
   <h1>My Work</h1>
