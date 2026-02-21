@@ -1,6 +1,88 @@
-{% extends "base.html" %} {% load static %} {% block title %} My Work {%
-endblock %} {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/home.css' %}" />
+{% extends "base.html" %} {% load static %} {% block title %}My Work{% endblock
+%} {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/project.css' %}" />
+<link rel="stylesheet" href="{% static 'css/my_work.css' %}" />
+{% endblock %} {% block content %}
 
-{% endblock %} {% block content %} main content goes here. {% end block %}
+<header class="work-header">
+  <h1>My Work</h1>
+  <p class="work-subtitle">
+    View the GitHub code and deployed websites for each project by clicking
+    their links.
+  </p>
+</header>
+
+<main class="work-grid-wrap">
+  <section class="work-grid" aria-label="Projects">
+    {% for project in projects %}
+    <article class="work-card">
+      {# ---------- Project image ---------- #}
+      <a
+        class="work-card__image-link"
+        href="{% url 'project' project.id %}"
+        aria-label="Open {{ project.title }} project page"
+      >
+        {% if project.image %}
+        <img
+          class="work-card__image"
+          src="{{ project.image.url }}"
+          alt="{{ project.title }} preview"
+        />
+        {% else %}
+        <img
+          class="work-card__image"
+          src="{% static 'images/project-placeholder.png' %}"
+          alt="{{ project.title }} preview"
+        />
+        {% endif %}
+      </a>
+
+      {# ---------- Body ---------- #}
+      <div class="work-card__body">
+        <h2 class="work-card__title">
+          <a href="{% url 'project' project.id %}">{{ project.title }}</a>
+        </h2>
+
+        <p class="work-card__desc">{{ project.description }}</p>
+
+        {# ---------- Links ---------- #}
+        <div class="work-card__links">
+          {% if project.github_url %}
+          <a
+            class="work-link"
+            href="{{ project.github_url }}"
+            target="_blank"
+            rel="noopener"
+          >
+            GitHub Code
+          </a>
+          {% endif %} {% if project.link %}
+          <a
+            class="work-link"
+            href="{{ project.link }}"
+            target="_blank"
+            rel="noopener"
+          >
+            Live Site
+          </a>
+          {% endif %} {# Optional: if neither exists, show nothing (or a small
+          note) #}
+        </div>
+
+        {# ---------- Tech tags ---------- #}
+        <ul class="work-tags" role="list">
+          {% for tag in project.tags.all %}
+          <li class="work-tag">{{ tag.name }}</li>
+          {% empty %}
+          <li class="work-tag work-tag--muted">No tags yet</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </article>
+    {% empty %}
+    <p>No projects found.</p>
+    {% endfor %}
+  </section>
+</main>
+
+{% endblock %}
