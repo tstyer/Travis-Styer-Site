@@ -1,14 +1,14 @@
-{% extends "base.html" %} 
-{% load static %} 
-{% block title %} 
-My Work 
-{% endblock %}} 
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+My Work
+{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/project.css' %}" />
 <link rel="stylesheet" href="{% static 'css/my_work.css' %}" />
-{% endblock %} 
-
+{% endblock %}
 
 {% block content %}
 
@@ -30,19 +30,21 @@ My Work
         href="{% url 'project' project.id %}"
         aria-label="Open {{ project.title }} project page"
       >
-        {% if project.image %}
-        <img
-          class="work-card__image"
-          src="{{ project.image.url }}"
-          alt="{{ project.title }} preview"
-        />
-        {% else %}
-        <img
-          class="work-card__image"
-          src="{% static 'images/project_placeholder.jpg' %}"
-          alt="{{ project.title }} preview"
-        />
-        {% endif %}
+        {% with img=project.images.first %}
+          {% if img %}
+            <img
+              class="work-card__image"
+              src="{{ img.image.url }}"
+              alt="{{ project.title }} preview"
+            />
+          {% else %}
+            <img
+              class="work-card__image"
+              src="{% static 'images/project_placeholder.jpg' %}"
+              alt="{{ project.title }} preview"
+            />
+          {% endif %}
+        {% endwith %}
       </a>
 
       {# ---------- Body ---------- #}
@@ -64,7 +66,9 @@ My Work
           >
             GitHub Code
           </a>
-          {% endif %} {% if project.link %}
+          {% endif %}
+
+          {% if project.link %}
           <a
             class="work-link"
             href="{{ project.link }}"
@@ -73,7 +77,7 @@ My Work
           >
             Live Site
           </a>
-          {% endif %} 
+          {% endif %}
         </div>
 
         {# ---------- Tech tags ---------- #}
