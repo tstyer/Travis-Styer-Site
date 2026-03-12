@@ -149,46 +149,7 @@
       <p class="copyright">&copy; Travis Styer</p>
     </footer>
 
-    {# Comments modal #}
-    <div id="comments-modal" class="comments-modal">
-      <div class="comments-modal__backdrop"></div>
-      <div class="comments-modal__content">
-        <button class="comments-modal__close" type="button">×</button>
-        <div id="comments-modal-body">
-          <p>Loading comments…</p>
-        </div>
-      </div>
-    </div>
-
-    {% block extra_modals %}{% endblock %} {# Authorisation modal #}
-    <div id="auth-modal" class="auth-modal">
-      <div class="auth-modal__backdrop"></div>
-      <div class="auth-modal__content">
-        <button class="auth-modal__close" type="button">×</button>
-        <h2 class="auth-title">Welcome back</h2>
-        <p class="auth-sub">Sign in to leave a comment.</p>
-
-        <form id="auth-form">
-          {% csrf_token %}
-
-          <label for="auth-email">Email</label>
-          <input type="email" id="auth-email" name="email" required />
-
-          <label for="auth-password">Password</label>
-          <input type="password" id="auth-password" name="password" required />
-
-          <input type="hidden" id="auth-mode" name="mode" value="login" />
-          <button type="submit" class="auth-primary">Continue</button>
-        </form>
-
-        <p class="auth-switch">
-          New here?
-          <button type="button" id="switch-to-register">
-            Create an account
-          </button>
-        </p>
-      </div>
-    </div>
+    {% block extra_modals %}{% endblock %}
 
     {% block inline_scripts %}{% endblock %} {# Scripts #}
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
