@@ -77,26 +77,6 @@ if (authBackdrop) {
   authBackdrop.addEventListener("click", closeAuth);
 }
 
-// toggle login/register text + hidden input
-if (switchToRegister && authModeInput) {
-  switchToRegister.addEventListener("click", () => {
-    if (authModeInput.value === "login") {
-      authModeInput.value = "register";
-
-      if (authTitle) authTitle.textContent = "Create an account";
-      if (authSub) authSub.textContent = "Register to leave comments.";
-
-      switchToRegister.textContent = "I already have an account";
-    } else {
-      authModeInput.value = "login";
-
-      if (authTitle) authTitle.textContent = "Welcome back";
-      if (authSub) authSub.textContent = "Sign in to leave a comment.";
-
-      switchToRegister.textContent = "Create an account";
-    }
-  });
-}
 
 /* ---- CSRF helper ---- */
 function getCsrfTokenFromForm(formEl) {

@@ -100,21 +100,7 @@
       </ul>
 
       <div class="auth-container">
-        {% if request.user.is_authenticated or request.session.user_email %}
-        <form method="post" action="{% url 'auth_logout' %}">
-          {% csrf_token %}
-          <input type="hidden" name="next" value="{{ request.path }}" />
-          <button type="submit" class="auth-btn nav-auth-btn">Sign out</button>
-        </form>
-        {% else %}
-        <button
-          type="button"
-          class="auth-btn nav-auth-btn"
-          id="open-auth-modal"
-        >
-          Sign in / Register
-        </button>
-        {% endif %}
+        <a href="/admin/login/" class="auth-btn nav-auth-btn">Admin Login</a>
       </div>
     </nav>
 
