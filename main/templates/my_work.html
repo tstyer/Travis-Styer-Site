@@ -21,9 +21,36 @@ My Work
 </header>
 
 <main class="work-grid-wrap">
+   
+  <!--Search-->
+  <input
+  type="text"
+  id="project-search"
+  placeholder="Search projects..."
+  class="project-search"
+  />
+
+  <!--Tags to filter projects-->
+  <div class="filter-tags">
+    <button class="tag-btn active" data-tag="all">
+      All
+    </button>
+
+    {% for tag in tags %}
+    <button class="tag-btn" data-tag="{{ tag.name|lower }}">
+      {{ tag.name }}
+    </button>
+    {% endfor %}
+  </div>
+
   <section class="work-grid" aria-label="Projects">
     {% for project in projects %}
-    <article class="work-card">
+    <!--first find the specific project title as you loop through projects-->
+    <article 
+  class="work-card"
+  data-tags="{% for tag in project.tags.all %}{{ tag.name|lower }} {% endfor %}"
+  data-name="{{ project.title|lower }}"
+>
       {# ---------- Project image ---------- #}
       <a
         class="work-card__image-link"
