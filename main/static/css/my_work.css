@@ -166,7 +166,8 @@ Postion: relative was needed above so 'top' and 'left' can be applied */
   left: 1px;
   border: 2px solid;
   border-color: var(--color-atags);
-  opacity: 80%;
+  background: rgba(47, 187, 170, 0.6);
+  color: #fff;
 }
 
 .tag-btn:hover {
