@@ -1,5 +1,8 @@
-const button = document.querySelectorAll('.tag-btn')
+const button = document.querySelector('.tag-btn')
 
-document.addEventListener(button, () => {
-    console.log('button clicked')
-})
+/* Add's the active class to buttons when clicked */
+
+document.addEventListener("click", () => {
+    button.classList.add('active');
+});
+
