@@ -133,7 +133,7 @@
 }
 
 /* Tags */
-.work-tags {
+.tag-btn {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
@@ -142,7 +142,7 @@
   margin: 0;
 }
 
-.work-tag {
+.tag-btn {
   border: 1.5px solid rgba(47, 187, 170, 0.35);
   background: rgba(47, 187, 170, 0.08);
   color: #249988;
