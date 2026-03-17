@@ -133,7 +133,7 @@
 }
 
 /* Tags */
-.tag-btn {
+.filter-tags {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
