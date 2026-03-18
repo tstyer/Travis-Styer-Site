@@ -192,9 +192,9 @@ Postion: relative was needed above so 'top' and 'left' can be applied */
 
 /* Search field */
 .project_search {
-  width: 260px;
-  padding: 10px 12px;
-  border: 1px solid rgba(79, 70, 229, 0.7); /* 0.7 changes opacity to 70% */
+  width: 300px;
+  padding: 8px 12px;
+  border: 1px solid rgba(79, 70, 229, 0.3); /* 0.3 changes opacity to 30% */
   border-radius: 8px;
 
   background: rgba(255, 255, 255, 0.65);
