@@ -2,6 +2,9 @@
 const buttons = document.querySelectorAll(".tag-btn");
 const work_cards = document.querySelectorAll(".work-card");
 
+
+/* == Tag buttons == */
+
 // Add's the active class to buttons when clicked
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -57,6 +60,10 @@ buttons.forEach((button) => {
     });
   });
 });
+
+
+/* == Search bar == */
+
 
 
 /* Learning note:

@@ -38,6 +38,7 @@
 
 .work-subtitle {
   margin-top: 0.5rem;
+  margin-bottom: 0px;
   color: var(--H2H3P-Colour);
   font-size: 0.95rem;
 }
@@ -180,7 +181,22 @@ Postion: relative was needed above so 'top' and 'left' can be applied */
   opacity: 0.65;
 }
 
-/* Breakpoints */
+/* == Search bar == */
+
+/* Outter div */
+.search_field {
+  padding: 12px;
+}
+
+/* Search field */
+.project_search {
+  border-radius: 8px;
+  background-color: var(--color-shadow);
+  font-family: 'Inter', sans-serif;
+  border-color: var(--H2H3P-Colour);
+}
+
+/* == Breakpoints == */
 @media (max-width: 950px) {
   .work-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
