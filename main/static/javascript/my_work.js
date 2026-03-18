@@ -2,6 +2,9 @@
 const buttons = document.querySelectorAll(".tag-btn");
 const work_cards = document.querySelectorAll(".work-card");
 
+// Select the elements for the search bar
+const search_bar = document.getElementById('project_search');
+
 
 /* == Tag buttons == */
 
@@ -63,6 +66,24 @@ buttons.forEach((button) => {
 
 
 /* == Search bar == */
+
+function search_field() {
+  // This listens for input (any keys typed) and matches with tags on cards
+  search_bar.addEventListener("input", () => {
+
+    // Takes the value entered into the search bar and converts to lower case and removes outter spaces - not in middle
+    const search_query = search_bar.value.toLowerCase().trim();
+
+    console.log(search_query);
+
+  })
+}
+
+/* To do:
+- When users type a word, it shows relevant projects.
+- when users type a tag, it shows projects with that tag.
+- when users type a letter, it starts prompting recommendations. */
+
 
 
 
