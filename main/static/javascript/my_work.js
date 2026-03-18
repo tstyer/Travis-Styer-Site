@@ -2,8 +2,49 @@
 const buttons = document.querySelectorAll(".tag-btn");
 const work_cards = document.querySelectorAll(".work-card");
 
-// Select the elements for the search bar
-const search_bar = document.getElementById('project_search');
+// Select the element for the search bar
+const search_bar = document.getElementById("project_search");
+
+
+/* == Shared filter function == */
+
+function filterProjects() {
+  // Get the search query, make lowercase, remove outer spaces
+  const search_query = search_bar.value.toLowerCase().trim();
+
+  // Collect all selected tags except "all"
+  const selectedTags = [];
+
+  buttons.forEach((btn) => {
+    if (btn.classList.contains("active") && btn.dataset.tag !== "all") {
+      selectedTags.push(btn.dataset.tag);
+    }
+  });
+
+  // Loop through all project cards
+  work_cards.forEach((card) => {
+    const cardTags = card.dataset.tags.toLowerCase();
+    const cardName = card.dataset.name.toLowerCase();
+
+    // Check if card matches search
+    const matchesSearch =
+      search_query === "" ||
+      cardTags.includes(search_query) ||
+      cardName.includes(search_query);
+
+    // Check if card matches selected tags
+    const matchesTags =
+      selectedTags.length === 0 ||
+      selectedTags.some((tag) => cardTags.includes(tag));
+
+    // Only show if both search and tags match
+    if (matchesSearch && matchesTags) {
+      card.style.display = "";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
 
 
 /* == Tag buttons == */
@@ -28,11 +69,11 @@ buttons.forEach((button) => {
         }
       });
 
-      // then re-add to only selected:
+      // Then re-add to only selected
       button.classList.toggle("active");
     }
 
-    // collect all the of the selected tags, ready to match with cards
+    // If no specific tags are selected, make "All" active again
     const selectedTags = [];
 
     buttons.forEach((btn) => {
@@ -41,7 +82,6 @@ buttons.forEach((button) => {
       }
     });
 
-    // If no specific tags are selected, make "All" active again
     if (selectedTags.length === 0) {
       buttons.forEach((btn) => {
         if (btn.dataset.tag === "all") {
@@ -50,17 +90,8 @@ buttons.forEach((button) => {
       });
     }
 
-    // match selected tags with tags of work cards:
-    work_cards.forEach((card) => {
-      if (
-        selectedTags.length === 0 ||
-        selectedTags.some((tag) => card.dataset.tags.includes(tag))
-      ) {
-        card.style.display = "";
-      } else {
-        card.style.display = "none";
-      }
-    });
+    // Run the shared filter
+    filterProjects();
   });
 });
 
@@ -68,27 +99,25 @@ buttons.forEach((button) => {
 /* == Search bar == */
 
 function search_field() {
-  // This listens for input (any keys typed) and matches with tags on cards
+  // This listens for input (any keys typed) and matches with tags and titles on cards
   search_bar.addEventListener("input", () => {
-
-    // Takes the value entered into the search bar and converts to lower case and removes outter spaces - not in middle
-    const search_query = search_bar.value.toLowerCase().trim();
-
-    console.log(search_query);
-
-  })
+    filterProjects();
+  });
 }
+
+// Call the function so it actually runs
+search_field();
+
 
 /* To do:
 - When users type a word, it shows relevant projects.
 - when users type a tag, it shows projects with that tag.
-- when users type a letter, it starts prompting recommendations. */
-
-
+- when users type a letter, it starts prompting recommendations.
+*/
 
 
 /* Learning note:
-- when adding classList.add... you only add it to one element. 
-- when doing classList.toggle... you change from on or off, like a switch. 
+- when adding classList.add... you only add it to one element.
+- when doing classList.toggle... you change from on or off, like a switch.
 - classList.toggle will add 'active' if not present, or remove it if it already is.
 */
