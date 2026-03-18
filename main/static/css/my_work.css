@@ -191,10 +191,17 @@ Postion: relative was needed above so 'top' and 'left' can be applied */
 /* Search field */
 .project_search {
   border-radius: 8px;
-  background-color: var(--color-shadow);
+  border-style: hidden;
+  background-color: lightgray;
   font-family: 'Inter', sans-serif;
-  border-color: var(--H2H3P-Colour);
+  box-shadow: 0 0 5px rgba(47, 187, 170, 0.35);
 }
+
+/* Targets the placeholder text */
+.search_field::placeholder {
+  padding-left: 2px;
+}
+
 
 /* == Breakpoints == */
 @media (max-width: 950px) {
