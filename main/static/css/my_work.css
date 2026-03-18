@@ -186,21 +186,39 @@ Postion: relative was needed above so 'top' and 'left' can be applied */
 /* Outter div */
 .search_field {
   padding: 12px;
+  display: flex;
+  justify-content: center;
 }
 
 /* Search field */
 .project_search {
+  width: 260px;
+  padding: 10px 12px;
+  border: 1px solid rgba(79, 70, 229, 0.7); /* 0.7 changes opacity to 70% */
   border-radius: 8px;
-  border-style: hidden;
-  background-color: lightgray;
+
+  background: rgba(255, 255, 255, 0.65);
   font-family: 'Inter', sans-serif;
-  box-shadow: 0 0 5px rgba(47, 187, 170, 0.35);
+  color: var(--color-text);
+
+  box-shadow: 0 0 6px rgba(47, 187, 170, 0.25);
+  outline: none;
+
+  transition: all 0.25s ease;
 }
 
 /* Targets the placeholder text */
-.search_field::placeholder {
-  padding-left: 2px;
+.project_search::placeholder {
+  padding-left: 2px !important;
+  color: rgba(38, 42, 46, 0.6);
 }
+
+/* :focus only applies when input is active - good for ux */
+project_search:focus {
+  border-color: rgba(79, 70, 229, 0.95);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
 
 
 /* == Breakpoints == */
