@@ -21,8 +21,8 @@ DEBUG = False
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # Fail hard if production is misconfigured
-if not DEBUG and SECRET_KEY == "dev-secret-key-change-me":
-    raise ValueError("SECRET_KEY must be set in production.")
+if not SECRET_KEY:
+    raise ValueError("SECRET_KEY must be set.")
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
