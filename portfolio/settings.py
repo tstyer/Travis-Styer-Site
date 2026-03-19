@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load local env.py if present (local development only)
 if os.path.isfile(BASE_DIR / "env.py"):
-    import env  # noqa: F401
+    pass
 
 # -------------------------------------------------------------------
 # Debug + Security / Secret Key
@@ -139,23 +139,44 @@ USE_TZ = True
 # -------------------------------------------------------------------
 # Static & media files
 # -------------------------------------------------------------------
+
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [
     BASE_DIR / "main" / "static",
 ]
 
-if DEBUG:
-    STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
-else:
-    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# -------------------------------------------------------------------
+# Main Media - S3
+# -------------------------------------------------------------------
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "access_key": os.getenv("AWS_ACCESS_KEY_ID"),
+            "secret_key": os.getenv("AWS_SECRET_ACCESS_KEY"),
+            "bucket_name": os.getenv("AWS_STORAGE_BUCKET_NAME"),
+            "region_name": os.getenv("AWS_S3_REGION_NAME"),
+            "default_acl": None,
+            "querystring_auth": False,
+            "file_overwrite": False,
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+MEDIA_URL = (
+    f"https://{os.getenv('AWS_STORAGE_BUCKET_NAME')}.s3."
+    f"{os.getenv('AWS_S3_REGION_NAME')}.amazonaws.com/"
+)
 
 # -------------------------------------------------------------------
 # Defaults
 # -------------------------------------------------------------------
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # -------------------------------------------------------------------

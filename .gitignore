@@ -3,3 +3,5 @@ db.sqlite3
 env.py
 creds.json
 run.py
+.pyc
+__pycache__/
