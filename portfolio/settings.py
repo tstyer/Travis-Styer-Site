@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load local env.py if present (local development only)
 if os.path.isfile(BASE_DIR / "env.py"):
-    pass
+    import env  # noqa: F401
 
 # -------------------------------------------------------------------
 # Debug + Security / Secret Key
