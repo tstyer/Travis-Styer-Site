@@ -18,7 +18,7 @@ if os.path.isfile(BASE_DIR / "env.py"):
 DEBUG = False
 
 # Security / Secret Key
-SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key-change-me")
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # Fail hard if production is misconfigured
 if not DEBUG and SECRET_KEY == "dev-secret-key-change-me":
@@ -150,14 +150,22 @@ STATICFILES_DIRS = [
 # Main Media - S3
 # -------------------------------------------------------------------
 
+AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME = os.getenv("AWS_S3_REGION_NAME")
+AWS_S3_CUSTOM_DOMAIN = (
+    f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
+)
+AWS_QUERYSTRING_AUTH = False
+
 STORAGES = {
     "default": {
         "BACKEND": "storages.backends.s3.S3Storage",
         "OPTIONS": {
             "access_key": os.getenv("AWS_ACCESS_KEY_ID"),
             "secret_key": os.getenv("AWS_SECRET_ACCESS_KEY"),
-            "bucket_name": os.getenv("AWS_STORAGE_BUCKET_NAME"),
-            "region_name": os.getenv("AWS_S3_REGION_NAME"),
+            "bucket_name": AWS_STORAGE_BUCKET_NAME,
+            "region_name": AWS_S3_REGION_NAME,
+            "custom_domain": AWS_S3_CUSTOM_DOMAIN,
             "default_acl": None,
             "querystring_auth": False,
             "file_overwrite": False,
@@ -168,10 +176,7 @@ STORAGES = {
     },
 }
 
-MEDIA_URL = (
-    f"https://{os.getenv('AWS_STORAGE_BUCKET_NAME')}.s3."
-    f"{os.getenv('AWS_S3_REGION_NAME')}.amazonaws.com/"
-)
+MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
 
 # -------------------------------------------------------------------
 # Defaults
