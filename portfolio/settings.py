@@ -29,6 +29,8 @@ ALLOWED_HOSTS = [
     "localhost",
     "[::1]",
     ".herokuapp.com",
+    "travisstyer.tech",
+    "www.travisstyer.tech",
 ]
 
 # -------------------------------------------------------------------
