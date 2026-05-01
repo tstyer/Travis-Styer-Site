@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import logout as django_logout
 from django.contrib.auth.hashers import check_password, make_password
 from django.core.cache import cache
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -60,44 +60,26 @@ Email: {email}
 Message:
 {message}
 """
-            send_mail(
+
+            email_message = EmailMessage(
                 subject=f"Portfolio contact: {subject}",
-                message=full_message,
+                body=full_message,
                 from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[settings.EMAIL_HOST_USER],
-                fail_silently=False,
+                to=[settings.EMAIL_HOST_USER],
                 reply_to=[email],
             )
+
+            email_message.send(fail_silently=False)
+
             messages.success(request, "Message sent successfully.")
             return redirect("contact")
+
         messages.error(request, "Please correct the errors below.")
+
     else:
         form = ContactForm()
+
     return render(request, "contact.html", {"form": form})
-
-
-def project(request, id):
-    """
-    Full project detail page.
-    """
-    project_obj = get_object_or_404(Project, pk=id)
-    comments = project_obj.comments.select_related("user").order_by("-created_at")
-
-    # allow either Django-auth or sheet-auth to post
-    can_comment = request.user.is_authenticated or bool(
-        request.session.get("user_email")
-    )
-    form = CommentForm() if can_comment else None
-
-    return render(
-        request,
-        "project.html",
-        {
-            "project": project_obj,
-            "comments": comments,
-            "form": form,
-        },
-    )
 
 
 # --------------------
