@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import logout as django_logout
 from django.contrib.auth.hashers import check_password, make_password
 from django.core.cache import cache
+from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -43,13 +44,34 @@ def contact(request):
     """
     if request.method == "POST":
         form = ContactForm(request.POST)
+
         if form.is_valid():
+            name = form.cleaned_data["name"]
+            email = form.cleaned_data["email"]
+            subject = form.cleaned_data["subject"]
+            message = form.cleaned_data["message"]
+
+            full_message = f"""
+You received a new message from your portfolio contact form.
+
+Name: {name}
+Email: {email}
+
+Message:
+{message}
+"""
+            send_mail(
+                subject=f"Portfolio contact: {subject}",
+                message=full_message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[settings.CONTACT_EMAIL],
+                fail_silently=False,
+            )
             messages.success(request, "Message sent successfully.")
             return redirect("contact")
         messages.error(request, "Please correct the errors below.")
     else:
         form = ContactForm()
-
     return render(request, "contact.html", {"form": form})
 
 
