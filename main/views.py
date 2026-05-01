@@ -64,7 +64,7 @@ Message:
                 subject=f"Portfolio contact: {subject}",
                 message=full_message,
                 from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[settings.CONTACT_EMAIL],
+                recipient_list=[settings.EMAIL_HOST_USER],
                 fail_silently=False,
             )
             messages.success(request, "Message sent successfully.")
