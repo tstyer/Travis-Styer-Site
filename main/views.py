@@ -66,6 +66,7 @@ Message:
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[settings.EMAIL_HOST_USER],
                 fail_silently=False,
+                reply_to=[email],
             )
             messages.success(request, "Message sent successfully.")
             return redirect("contact")
