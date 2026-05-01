@@ -82,6 +82,30 @@ Message:
     return render(request, "contact.html", {"form": form})
 
 
+def project(request, id):
+    """
+    Full project detail page.
+    """
+    project_obj = get_object_or_404(Project, pk=id)
+    comments = project_obj.comments.select_related("user").order_by("-created_at")
+
+    # allow either Django-auth or sheet-auth to post
+    can_comment = request.user.is_authenticated or bool(
+        request.session.get("user_email")
+    )
+    form = CommentForm() if can_comment else None
+
+    return render(
+        request,
+        "project.html",
+        {
+            "project": project_obj,
+            "comments": comments,
+            "form": form,
+        },
+    )
+
+
 # --------------------
 # COMMENTS: PARTIAL + CRUD
 # --------------------
